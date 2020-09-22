@@ -1,0 +1,52 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Simple Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="MainController?action=home"><i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?action=write-blog"><i class="fas fa-edit"></i> Write
+                    </a>
+                </li>
+                <c:choose>
+                    <c:when test="${not empty firstName and not empty lastName}">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" 
+                                   href="#" role="button" id="dropdownMenuLink" 
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    ${firstName}&nbsp;${lastName}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">My articles</a>
+                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <c:set value="MainController?action=logout" var="url"/>
+                                    <a class="dropdown-item" href="${url}" >Sign out</a>
+                                </div>
+                            </div> 
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.jsp">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.jsp">Sign up</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
+    </div>
+</nav>

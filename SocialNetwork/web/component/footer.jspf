@@ -1,0 +1,6 @@
+<%@ page pageEncoding="UTF-8" %>
+<footer class="py-3 bg-light">
+  <div class="container">
+    <p class="m-0 text-center" style="color: #999999; font-size: 12px;">2020 &copy; Mini Social Network</p>
+  </div>
+</footer>
