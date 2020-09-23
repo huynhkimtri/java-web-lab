@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trihk.socialnetwork.controller;
+package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,25 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TriHuynh
  */
-public class MainController extends HttpServlet {
-
-  private final String ACTION_LOGIN = "login";
-  private final String ACTION_REGISTER = "register";
-  private final String ACTION_LOGOUT = "logout";
-  private final String ACTION_HOME = "home";
-  private final String ACTION_CREATE = "create-article";
-  private final String ACTION_DETAIL = "article-detail";
-  private final String ACTION_VIEW = "view";
-  private final String ACTION_EMOTION = "emotion";
-
-  private final String homeServlet = "HomeServlet";
-  private final String homeAdminServlet = "HomeAdminServlet";
-  private final String loginServlet = "LoginServlet";
-  private final String registerServlet = "RegisterServlet";
-  private final String logoutServlet = "LogoutServlet";
-  private final String createArticleServlet = "CreateArticleServlet";
-  private final String detailArticleServlet = "ViewArticleServlet";
-  private final String emotionArticleServlet = "EmotionServlet";
+@WebServlet(name = "EmotionServlet", urlPatterns = {"/EmotionServlet"})
+public class EmotionServlet extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,41 +31,16 @@ public class MainController extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html;charset=UTF-8");
-    try (PrintWriter out = response.getWriter()) {
-      String url = homeServlet;
-      String action = request.getParameter("action");
-      if (action != null) {
-        switch (action) {
-          case ACTION_HOME:
-            url = homeServlet;
-            break;
-          case ACTION_LOGIN:
-            url = loginServlet;
-            break;
-          case ACTION_REGISTER:
-            url = registerServlet;
-            break;
-          case ACTION_LOGOUT:
-            url = logoutServlet;
-            break;
-          case ACTION_CREATE:
-            url = createArticleServlet;
-            break;
-          case ACTION_VIEW:
-            url = detailArticleServlet;
-            break;
-          case ACTION_EMOTION:
-            url = emotionArticleServlet;
-            break;
-          default:
-            break;
-        }
+    String emotion = request.getParameter("emotion");
+    if (emotion != null) {
+      if (emotion.equals("like")) {
+        
+      } else {
+
       }
-      RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-      dispatcher.forward(request, response);
     }
+
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

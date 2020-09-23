@@ -9,7 +9,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import javafx.scene.shape.Arc;
 import trihk.socialnetwork.dao.AccountDAO;
 import trihk.socialnetwork.dao.ArticleDAO;
 import trihk.socialnetwork.dao.ArticleStatusDAO;
@@ -43,5 +42,25 @@ public class ArticleService {
     listOfArticles = dao.listAll();
     System.out.println(Arrays.toString(listOfArticles.toArray()));
     return listOfArticles;
+  }
+
+  public void like(int id, String authEmail) {
+    ArticleDAO dao = new ArticleDAO();
+    Article article = dao.getOne(id);
+    int like = article.getNumOfLike() + 1;
+    int dislike = article.getNumOfDislike() > 0 ? article.getNumOfDislike() - 1 : 0;
+    article.setNumOfLike(like);
+    article.setNumOfDislike(dislike);
+    dao.update(article);
+  }
+
+  public void dislike(int id, String authEmail) {
+    ArticleDAO dao = new ArticleDAO();
+    Article article = dao.getOne(id);
+    int dislike = article.getNumOfDislike() + 1;
+    int like = article.getNumOfLike() > 0 ? article.getNumOfLike() - 1 : 0;
+    article.setNumOfLike(like);
+    article.setNumOfDislike(dislike);
+    dao.update(article);
   }
 }

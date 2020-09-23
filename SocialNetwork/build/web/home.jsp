@@ -13,6 +13,7 @@
     <title>Home - Social Network</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
+    <link href="css/fontawesome.min.css" rel="stylesheet">
   </head>
   <body>
     <c:set value="${sessionScope.USER}" var="user" />
@@ -37,13 +38,25 @@
                     <div class="post-details">
                       <div class="post-meta d-flex justify-content-between">
                         <div class="date meta-last">${article.createdDate}</div>
-                      </div><a href="post.html">
+                      </div><a href="MainController?action=view&id=${article.id}">
                         <h3 class="h4">${article.title}</h3></a>
                       <p class="text-muted">${article.description}</p>
-                      <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
-                          <div class="title"><span>${article.authorEmail.name}</span></div></a>
-                        <div class="comments meta-last"><i class="icon-comment"></i>${article.numOfLike} like</div>
-                        <div class="comments meta-last"><i class="icon-comment"></i>${article.numOfDislike} dislike</div>
+                      <footer class="post-footer d-flex align-items-center">
+                        <div class="comments meta-last mr-2">
+                          <c:set value="${article.numOfLike}" var="like"/>
+                          <button type="button" class="btn btn-outline-success btn-sm mr-1">
+                            <c:if test="${like == 0}">Like</c:if>
+                            <c:if test="${like > 0}">${like} like</c:if>
+                            </button>
+                          <c:set value="${article.numOfDislike}" var="dislike"/>
+                          <button type="button" class="btn btn-outline-secondary btn-sm">
+                            <c:if test="${dislike == 0}">Dislike</c:if>
+                            <c:if test="${dislike > 0}">${dislike} dislike</c:if>
+                            </button>
+                          </div>
+                          <a href="#" class="author d-flex align-items-center flex-wrap">
+                            <div class="title"><span>${article.authorEmail.name}</span></div>
+                        </a>
                       </footer>
                     </div>
                   </div>

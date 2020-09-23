@@ -93,4 +93,23 @@ public class ArticleDAO implements Serializable {
     }
     return list;
   }
+
+  public Article getOne(int id) {
+    Article article = null;
+    EntityManager entityManager = DBUtils.getEntityManager();
+    try {
+      entityManager.getTransaction().begin();
+      article = (Article) entityManager.createNamedQuery("Article.findById")
+              .setParameter("id", id)
+              .getSingleResult();
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+    } finally {
+      if (entityManager != null) {
+        entityManager.close();
+      }
+    }
+    return article;
+  }
 }
