@@ -6,7 +6,6 @@
 package trihk.socialnetwork.dao;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -27,8 +26,8 @@ public class AccountDAO implements Serializable {
             em.getTransaction().commit();
             return account;
         } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-//            em.getTransaction().rollback();
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
         } finally {
             em.close();
         }
@@ -43,8 +42,8 @@ public class AccountDAO implements Serializable {
             em.getTransaction().commit();
             return account;
         } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-//            em.getTransaction().rollback();
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
         } finally {
             em.close();
         }
@@ -61,8 +60,8 @@ public class AccountDAO implements Serializable {
             em.getTransaction().commit();
             return account;
         } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
-//            em.getTransaction().rollback();
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
         } finally {
             em.close();
         }

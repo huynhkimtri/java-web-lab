@@ -33,4 +33,6 @@ public class Constants {
   public static final String MSG_INVALID_PWD = "Passwords must be at least 8 characters!";
   public static final String MSG_INACTIVE = "Your account is inactive. Contact your administrator to activate it.";
   public static final String MSG_EXISTED_EMAIL = "This email address is already taken. Please try another.";
+  public static final String MSG_SUCCESS = "Your article has been created!";
+  public static final String MSG_FAIL = "Something wrong here! Try again.";
 }

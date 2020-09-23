@@ -6,8 +6,6 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,15 +16,14 @@ import javax.servlet.http.HttpSession;
 import trihk.socialnetwork.entity.Account;
 import trihk.socialnetwork.entity.Article;
 import trihk.socialnetwork.service.ArticleService;
+import trihk.socialnetwork.utils.Constants;
 
 /**
  *
  * @author TriHuynh
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/HomeServlet"})
-public class HomeServlet extends HttpServlet {
-
-  private final String homePage = "home.jsp";
+@WebServlet(name = "CreateArticleServlet", urlPatterns = {"/CreateArticleServlet"})
+public class CreateArticleServlet extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,16 +37,27 @@ public class HomeServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
+    String path = "create-article.jsp";
+    int newStatus = 1;
     try {
+      String title = request.getParameter("txtTitle").trim();
+      String description = request.getParameter("txtDescription").trim();
+      String imageUrl = request.getParameter("txtImageUrl").trim();
+      String content = request.getParameter("txtContent").trim();
+      HttpSession session = request.getSession();
+      String email = ((Account) session.getAttribute("USER")).getEmail();
       ArticleService service = new ArticleService();
-      List<Article> list = service.getList();
-      request.setAttribute("LIST_ARTILCES", list);
+      Article article = service.create(title, description, content, imageUrl, newStatus, email);
+      if (article != null) {
+        request.setAttribute("MSG_SUCCESS", Constants.MSG_SUCCESS);
+      } else {
+        request.setAttribute("MSG_FAIL", Constants.MSG_FAIL);
+      }
     } catch (Exception e) {
     } finally {
-      RequestDispatcher dispatcher = request.getRequestDispatcher(homePage);
+      RequestDispatcher dispatcher = request.getRequestDispatcher(path);
       dispatcher.forward(request, response);
     }
-
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
