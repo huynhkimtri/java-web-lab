@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import trihk.socialnetwork.entity.Article;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-09-22T16:14:39")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-09-24T13:53:32")
 @StaticMetamodel(ArticleStatus.class)
 public class ArticleStatus_ { 
 
