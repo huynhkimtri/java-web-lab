@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import trihk.socialnetwork.entity.Article;
+import trihk.socialnetwork.service.ArticleService;
 
 /**
  *
@@ -37,7 +39,9 @@ public class ViewArticleServlet extends HttpServlet {
     String path = "article-details.jsp";
     HttpSession session = request.getSession();
     int id = Integer.parseInt(request.getParameter("id"));
-    System.out.println(id);
+    ArticleService service = new ArticleService();
+    Article article = service.getOne(id);
+    request.setAttribute("ARTICLE", article);
     RequestDispatcher dispatcher = request.getRequestDispatcher(path);
     dispatcher.forward(request, response);
   }

@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -37,29 +38,33 @@
                   <div class="post">
                     <div class="post-details">
                       <div class="post-meta d-flex justify-content-between">
-                        <div class="date meta-last">${article.createdDate}</div>
+                        <div class="date meta-last">
+                          <f:formatDate type="both" timeStyle="short" dateStyle="short" 
+                                        value="${article.createdDate}"/>
+                          <a href="#" class="author d-flex align-items-center flex-wrap">
+                            <div class="title"><span>${article.authorEmail.name}</span></div>
+                          </a>
+                        </div>
                       </div><a href="MainController?action=view&id=${article.id}">
                         <h3 class="h4">${article.title}</h3></a>
                       <p class="text-muted">${article.description}</p>
                       <footer class="post-footer d-flex align-items-center">
                         <div class="comments meta-last mr-2">
                           <c:set value="${article.numOfLike}" var="like"/>
-                          <button type="button" class="btn btn-outline-success btn-sm mr-1">
+                          <button type="button" class="btn btn-outline-success btn-sm mr-1" onclick="like(${article.id})">
                             <c:if test="${like == 0}">Like</c:if>
-                            <c:if test="${like > 0}">${like} like</c:if>
+                            <c:if test="${like > 0}">${like} Like</c:if>
                             </button>
                           <c:set value="${article.numOfDislike}" var="dislike"/>
-                          <button type="button" class="btn btn-outline-secondary btn-sm">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="dislike(${article.id})">
                             <c:if test="${dislike == 0}">Dislike</c:if>
-                            <c:if test="${dislike > 0}">${dislike} dislike</c:if>
+                            <c:if test="${dislike > 0}">${dislike} Dislike</c:if>
                             </button>
                           </div>
-                          <a href="#" class="author d-flex align-items-center flex-wrap">
-                            <div class="title"><span>${article.authorEmail.name}</span></div>
-                        </a>
-                      </footer>
+
+                        </footer>
+                      </div>
                     </div>
-                  </div>
                 </c:forEach>
               </c:if>
             </div>
@@ -134,5 +139,33 @@
     <!-- Footer -->
     <%--<%@include file="component/footer.jspf" %>--%>
     <!--<script src="js/jquery.min.js"></script>-->
+    <script>
+      const like = function (id) {
+        const btn = document.getElementsByClassName("btn btn-outline-success");
+        btn.className += " active";
+        const url = new URL(this.document.URL);
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+          }
+        };
+        const uri = url.href + "MainController?action=emotion&id=" + id + "&emotion=like";
+        xhttp.open("POST", uri, true);
+        xhttp.send();
+      }
+      const dislike = function (id) {
+        const btn = document.getElementsByClassName("btn btn-outline-secondary");
+        btn.className += " active";
+        const url = new URL(this.document.URL);
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+          }
+        };
+        const uri = url.href + "MainController?action=emotion&id=" + id + "&emotion=dislike";
+        xhttp.open("POST", uri, true);
+        xhttp.send();
+      }
+    </script>
   </body>
 </html>

@@ -6,12 +6,14 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import trihk.socialnetwork.entity.Account;
+import trihk.socialnetwork.service.ArticleService;
 
 /**
  *
@@ -33,14 +35,22 @@ public class EmotionServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     String emotion = request.getParameter("emotion");
+    int articleId = Integer.parseInt(request.getParameter("id"));
+    HttpSession session = request.getSession();
+    String email = ((Account) session.getAttribute("USER")).getEmail();
     if (emotion != null) {
-      if (emotion.equals("like")) {
-        
-      } else {
-
+      ArticleService service = new ArticleService();
+      switch (emotion) {
+        case "like":
+          service.like(articleId, email);
+          break;
+        case "dislike":
+          service.dislike(articleId, email);
+          break;
+        default:
+          break;
       }
     }
-
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

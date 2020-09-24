@@ -6,7 +6,8 @@
 package trihk.socialnetwork.entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,9 +58,11 @@ public class Article implements Serializable {
   @Column(name = "image_url", length = 2147483647)
   private String imageUrl;
   @Column(name = "created_date")
-  private BigInteger createdDate;
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDate;
   @Column(name = "publish_date")
-  private BigInteger publishDate;
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date publishDate;
   @Column(name = "num_of_like")
   private Integer numOfLike;
   @Column(name = "num_of_dislike")
@@ -68,6 +75,8 @@ public class Article implements Serializable {
   @JoinColumn(name = "status_id", referencedColumnName = "id")
   @ManyToOne
   private ArticleStatus statusId;
+  @OneToMany(mappedBy = "articleId")
+  private Collection<ArticleEmotion> articleEmotionCollection;
 
   public Article() {
   }
@@ -108,19 +117,19 @@ public class Article implements Serializable {
     this.imageUrl = imageUrl;
   }
 
-  public BigInteger getCreatedDate() {
+  public Date getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(BigInteger createdDate) {
+  public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
   }
 
-  public BigInteger getPublishDate() {
+  public Date getPublishDate() {
     return publishDate;
   }
 
-  public void setPublishDate(BigInteger publishDate) {
+  public void setPublishDate(Date publishDate) {
     this.publishDate = publishDate;
   }
 
@@ -164,6 +173,15 @@ public class Article implements Serializable {
     this.statusId = statusId;
   }
 
+  @XmlTransient
+  public Collection<ArticleEmotion> getArticleEmotionCollection() {
+    return articleEmotionCollection;
+  }
+
+  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
+    this.articleEmotionCollection = articleEmotionCollection;
+  }
+
   @Override
   public int hashCode() {
     int hash = 0;
@@ -188,5 +206,5 @@ public class Article implements Serializable {
   public String toString() {
     return "trihk.socialnetwork.entity.Article[ id=" + id + " ]";
   }
-
+  
 }

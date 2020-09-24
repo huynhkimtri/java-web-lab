@@ -20,10 +20,9 @@ public class SampleEditor {
   public static void main(String[] args) {
     Date date = new Date();
     System.out.println(date.getTime());
-    String patern = "EEEEE dd MMMMM dd-MM-yyyy HH:mm:ss";
+    String patern = "EE dd MMM HH:mm";
     SimpleDateFormat format = new SimpleDateFormat(patern);
     String newDate = format.format(date.getTime());
-    System.out.println(new Date(date.getTime()));
     System.out.println(newDate);
   }
 

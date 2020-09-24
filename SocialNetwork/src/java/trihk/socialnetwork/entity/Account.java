@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Account implements Serializable {
 
   @OneToMany(mappedBy = "authorEmail")
+  private Collection<ArticleEmotion> articleEmotionCollection;
+
+  @OneToMany(mappedBy = "authorEmail")
   private Collection<Article> articleCollection;
 
   private static final long serialVersionUID = 1L;
@@ -133,6 +136,15 @@ public class Account implements Serializable {
 
   public void setArticleCollection(Collection<Article> articleCollection) {
     this.articleCollection = articleCollection;
+  }
+
+  @XmlTransient
+  public Collection<ArticleEmotion> getArticleEmotionCollection() {
+    return articleEmotionCollection;
+  }
+
+  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
+    this.articleEmotionCollection = articleEmotionCollection;
   }
 
 }
