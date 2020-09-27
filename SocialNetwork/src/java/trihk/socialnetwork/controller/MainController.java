@@ -28,6 +28,7 @@ public class MainController extends HttpServlet {
   private final String ACTION_DETAIL = "article-detail";
   private final String ACTION_VIEW = "view";
   private final String ACTION_EMOTION = "emotion";
+  private final String ACTION_COMMENT = "comment";
 
   private final String homeServlet = "HomeServlet";
   private final String homeAdminServlet = "HomeAdminServlet";
@@ -37,6 +38,7 @@ public class MainController extends HttpServlet {
   private final String createArticleServlet = "CreateArticleServlet";
   private final String detailArticleServlet = "ViewArticleServlet";
   private final String emotionArticleServlet = "EmotionServlet";
+  private final String commentArticleServlet = "CommentServlet";
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -76,6 +78,9 @@ public class MainController extends HttpServlet {
             break;
           case ACTION_EMOTION:
             url = emotionArticleServlet;
+            break;
+          case ACTION_COMMENT:
+            url = commentArticleServlet;
             break;
           default:
             break;

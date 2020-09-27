@@ -129,6 +129,16 @@ main.posts-listing .post-footer {
   padding-right: 0;
 }
 
+.blog-post .post-thumbnail img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.blog-post h1 {
+  color: #444;
+  line-height: 1.1em;
+}
+
 .blog-post .post-comments {
   margin-top: 50px;
 }

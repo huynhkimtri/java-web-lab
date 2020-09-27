@@ -40,7 +40,6 @@
         <div class="post blog-post col-lg-8">
           <div class="container">
             <div class="row">
-              <!-- post -->
               <div class="post">
                 <div class="post-details">
                   <div class="post-meta d-flex justify-content-between">
@@ -90,46 +89,18 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
               </div>
             </div>
-            <div class="comment">
-              <div class="comment-header d-flex justify-content-between">
-                <div class="user d-flex align-items-center">
-                  <div class="image"><img src="https://d19m59y37dris4.cloudfront.net/blog/1-2-1/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                  <div class="title"><strong>Nikolas</strong><span class="date">May 2016</span></div>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-              </div>
-            </div>
-            <div class="comment">
-              <div class="comment-header d-flex justify-content-between">
-                <div class="user d-flex align-items-center">
-                  <div class="image"><img src="https://d19m59y37dris4.cloudfront.net/blog/1-2-1/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                  <div class="title"><strong>John Doe</strong><span class="date">May 2016</span></div>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-              </div>
-            </div>
           </div>
           <div class="add-comment">
             <header>
               <h3 class="h6">Leave a reply</h3>
             </header>
-            <form action="#" class="commenting-form">
+            <form action="MainController" method="POST" class="commenting-form">
               <div class="row">
-                <div class="form-group col-md-6">
-                  <input type="text" name="username" id="username" placeholder="Name" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                  <input type="email" name="username" id="useremail" placeholder="Email Address (will not be published)" class="form-control">
-                </div>
                 <div class="form-group col-md-12"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
-                  <textarea name="usercomment" id="usercomment" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
+                  <textarea name="comment" id="usercomment" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
                 </div>
                 <div class="form-group col-md-12">
-                  <button type="submit" class="btn btn-secondary">Submit Comment</button>
+                  <button type="submit" name="action" value="comment" class="btn btn-secondary">Submit Comment</button>
                 </div>
               </div>
             </form>

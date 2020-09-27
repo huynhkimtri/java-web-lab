@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Account.findByIsActive", query = "SELECT a FROM Account a WHERE a.isActive = :isActive")})
 public class Account implements Serializable {
 
+  @OneToMany(mappedBy = "owner")
+  private Collection<Comment> commentCollection;
+
   @OneToMany(mappedBy = "authorEmail")
   private Collection<ArticleEmotion> articleEmotionCollection;
 
@@ -145,6 +148,15 @@ public class Account implements Serializable {
 
   public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
     this.articleEmotionCollection = articleEmotionCollection;
+  }
+
+  @XmlTransient
+  public Collection<Comment> getCommentCollection() {
+    return commentCollection;
+  }
+
+  public void setCommentCollection(Collection<Comment> commentCollection) {
+    this.commentCollection = commentCollection;
   }
 
 }

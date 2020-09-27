@@ -13,9 +13,11 @@ import trihk.socialnetwork.dao.AccountDAO;
 import trihk.socialnetwork.dao.ArticleDAO;
 import trihk.socialnetwork.dao.ArticleEmotionDAO;
 import trihk.socialnetwork.dao.ArticleStatusDAO;
+import trihk.socialnetwork.dao.CommentDAO;
 import trihk.socialnetwork.entity.Account;
 import trihk.socialnetwork.entity.Article;
 import trihk.socialnetwork.entity.ArticleEmotion;
+import trihk.socialnetwork.entity.Comment;
 
 /**
  *
@@ -83,5 +85,19 @@ public class ArticleService {
     article.setNumOfDislike(dislike);
     createEmotion(Boolean.FALSE, article, articleId, authEmail);
     dao.update(article);
+  }
+
+  public Comment comment(int articleId, String authEmail, String contents) {
+    ArticleDAO dao = new ArticleDAO();
+    Article article = dao.getOne(articleId);
+    CommentDAO commentDao = new CommentDAO();
+    Comment comment = new Comment();
+    Account acc = new AccountDAO().getByEmail(authEmail);
+    comment.setArticle(article);
+    comment.setContents(contents);
+    comment.setCreatedDate(new Date());
+    comment.setIsDelete(Boolean.FALSE);
+    comment.setOwner(acc);
+    return commentDao.create(comment);
   }
 }

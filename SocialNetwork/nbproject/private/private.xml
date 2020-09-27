@@ -16,8 +16,10 @@
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/EmotionServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/Article.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/css/home.css</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/NotificationServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/Account.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/index.html</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/CommentServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/css/fontawesome.min.css</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/dao/ArticleDAO.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/component/header.jspf</file>
@@ -25,14 +27,18 @@
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/ViewArticleServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/dao/AccountRoleDAO.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/home_1.jsp</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/web/WEB-INF/web.xml</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/component/navigation.jspf</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/web/component/headLink.jspf</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/AccountRole.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/HomeServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/utils/Constants.java</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/DeleteArticleServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/js/jquery.min.js</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/LoginServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/dao/ArticleEmotionDAO.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/register.jsp</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/DeleteCommentServlet.java</file>
         </group>
     </open-files>
 </project-private>

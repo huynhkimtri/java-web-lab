@@ -45,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Article.findByContents", query = "SELECT a FROM Article a WHERE a.contents = :contents")})
 public class Article implements Serializable {
 
+  @OneToMany(mappedBy = "article")
+  private Collection<Comment> commentCollection;
+
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -205,6 +208,15 @@ public class Article implements Serializable {
   @Override
   public String toString() {
     return "trihk.socialnetwork.entity.Article[ id=" + id + " ]";
+  }
+
+  @XmlTransient
+  public Collection<Comment> getCommentCollection() {
+    return commentCollection;
+  }
+
+  public void setCommentCollection(Collection<Comment> commentCollection) {
+    this.commentCollection = commentCollection;
   }
   
 }
