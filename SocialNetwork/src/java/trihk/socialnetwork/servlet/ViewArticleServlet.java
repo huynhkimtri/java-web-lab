@@ -7,6 +7,7 @@ package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import trihk.socialnetwork.entity.Article;
+import trihk.socialnetwork.entity.ArticleComment;
 import trihk.socialnetwork.service.ArticleService;
 
 /**
@@ -37,13 +39,18 @@ public class ViewArticleServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     String path = "article-details.jsp";
-    HttpSession session = request.getSession();
-    int id = Integer.parseInt(request.getParameter("id"));
-    ArticleService service = new ArticleService();
-    Article article = service.getOne(id);
-    request.setAttribute("ARTICLE", article);
-    RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-    dispatcher.forward(request, response);
+    try {
+      int id = Integer.parseInt(request.getParameter("id"));
+      ArticleService service = new ArticleService();
+      Article article = service.getOne(id);
+      List<ArticleComment> comments = service.getListComment(id);
+      request.setAttribute("ARTICLE", article);
+      request.setAttribute("COMMENTS", comments);
+      RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+      dispatcher.forward(request, response);
+    } catch (NumberFormatException e) {
+      response.sendRedirect("./");
+    }
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

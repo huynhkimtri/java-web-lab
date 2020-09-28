@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import trihk.socialnetwork.entity.Comment;
+import trihk.socialnetwork.entity.ArticleComment;
 import trihk.socialnetwork.utils.DBUtils;
 
 /**
  *
  * @author TriHuynh
  */
-public class CommentDAO implements Serializable {
+public class ArticleCommentDAO implements Serializable {
 
-  public Comment create(Comment comment) {
+  public ArticleComment create(ArticleComment comment) {
     EntityManager em = DBUtils.getEntityManager();
     try {
       em.getTransaction().begin();
@@ -37,7 +37,7 @@ public class CommentDAO implements Serializable {
     return comment;
   }
 
-  public Comment update(Comment comment) {
+  public ArticleComment update(ArticleComment comment) {
     EntityManager em = DBUtils.getEntityManager();
     try {
       em.getTransaction().begin();
@@ -54,13 +54,13 @@ public class CommentDAO implements Serializable {
     return comment;
   }
 
-  public List<Comment> getList(int articleId, boolean isDelete) {
+  public List<ArticleComment> getList(int articleId, boolean isDelete) {
     EntityManager em = DBUtils.getEntityManager();
-    List<Comment> comments = new ArrayList<>();
+    List<ArticleComment> comments = new ArrayList<>();
     try {
       em.getTransaction().begin();
-      comments = em.createNamedQuery("Comment.findAllByArticle")
-              .setParameter("isDelete", isDelete)
+      comments = em.createNamedQuery("ArticleComment.findAllByArticle")
+              .setParameter("isDelete", Boolean.FALSE)
               .setParameter("articleId", articleId)
               .getResultList();
       em.getTransaction().commit();
@@ -75,12 +75,12 @@ public class CommentDAO implements Serializable {
     return comments;
   }
 
-  public List<Comment> getList(int articleId, String author, boolean isDelete) {
+  public List<ArticleComment> getList(int articleId, String author, boolean isDelete) {
     EntityManager em = DBUtils.getEntityManager();
-    List<Comment> comments = new ArrayList<>();
+    List<ArticleComment> comments = new ArrayList<>();
     try {
       em.getTransaction().begin();
-      comments = em.createNamedQuery("Comment.findAllByArticleAndOwner")
+      comments = em.createNamedQuery("ArticleComment.findAllByArticleAndOwner")
               .setParameter("isDelete", isDelete)
               .setParameter("ownerEmail", author)
               .setParameter("articleId", articleId)

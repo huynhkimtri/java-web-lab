@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import trihk.socialnetwork.service.ArticleService;
 
 /**
  *
@@ -32,8 +33,11 @@ public class DeleteArticleServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-    String path = "";
-    String id = request.getParameter("id");
+    String path = "MyArticelServlet";
+    String strId = request.getParameter("id");
+    int id = Integer.parseInt(strId);
+    ArticleService service = new ArticleService();
+    service.delete(id);
     RequestDispatcher dispatcher = request.getRequestDispatcher(path);
     dispatcher.forward(request, response);
   }

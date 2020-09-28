@@ -35,22 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Account.findByIsActive", query = "SELECT a FROM Account a WHERE a.isActive = :isActive")})
 public class Account implements Serializable {
 
-  @OneToMany(mappedBy = "ownerEmail")
-  private Collection<ArticleComment> articleCommentCollection;
-  @OneToMany(mappedBy = "notifier")
-  private Collection<Notification> notificationCollection;
-  @OneToMany(mappedBy = "actor")
-  private Collection<Notification> notificationCollection1;
-
-  @OneToMany(mappedBy = "owner")
-  private Collection<Comment> commentCollection;
-
-  @OneToMany(mappedBy = "authorEmail")
-  private Collection<ArticleEmotion> articleEmotionCollection;
-
-  @OneToMany(mappedBy = "authorEmail")
-  private Collection<Article> articleCollection;
-
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -66,6 +50,8 @@ public class Account implements Serializable {
   @JoinColumn(name = "role_id", referencedColumnName = "id")
   @ManyToOne
   private AccountRole roleId;
+  @OneToMany(mappedBy = "authorEmail")
+  private Collection<Article> articleCollection;
 
   public Account() {
   }
@@ -114,6 +100,15 @@ public class Account implements Serializable {
     this.roleId = roleId;
   }
 
+  @XmlTransient
+  public Collection<Article> getArticleCollection() {
+    return articleCollection;
+  }
+
+  public void setArticleCollection(Collection<Article> articleCollection) {
+    this.articleCollection = articleCollection;
+  }
+
   @Override
   public int hashCode() {
     int hash = 0;
@@ -138,59 +133,5 @@ public class Account implements Serializable {
   public String toString() {
     return "trihk.socialnetwork.entity.Account[ email=" + email + " ]";
   }
-
-  @XmlTransient
-  public Collection<Article> getArticleCollection() {
-    return articleCollection;
-  }
-
-  public void setArticleCollection(Collection<Article> articleCollection) {
-    this.articleCollection = articleCollection;
-  }
-
-  @XmlTransient
-  public Collection<ArticleEmotion> getArticleEmotionCollection() {
-    return articleEmotionCollection;
-  }
-
-  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
-    this.articleEmotionCollection = articleEmotionCollection;
-  }
-
-  @XmlTransient
-  public Collection<Comment> getCommentCollection() {
-    return commentCollection;
-  }
-
-  public void setCommentCollection(Collection<Comment> commentCollection) {
-    this.commentCollection = commentCollection;
-  }
-
-  @XmlTransient
-  public Collection<ArticleComment> getArticleCommentCollection() {
-    return articleCommentCollection;
-  }
-
-  public void setArticleCommentCollection(Collection<ArticleComment> articleCommentCollection) {
-    this.articleCommentCollection = articleCommentCollection;
-  }
-
-  @XmlTransient
-  public Collection<Notification> getNotificationCollection() {
-    return notificationCollection;
-  }
-
-  public void setNotificationCollection(Collection<Notification> notificationCollection) {
-    this.notificationCollection = notificationCollection;
-  }
-
-  @XmlTransient
-  public Collection<Notification> getNotificationCollection1() {
-    return notificationCollection1;
-  }
-
-  public void setNotificationCollection1(Collection<Notification> notificationCollection1) {
-    this.notificationCollection1 = notificationCollection1;
-  }
-
+  
 }

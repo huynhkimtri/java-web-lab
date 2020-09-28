@@ -7,7 +7,6 @@ package trihk.socialnetwork.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +24,10 @@ public class MainController extends HttpServlet {
   private final String ACTION_LOGOUT = "logout";
   private final String ACTION_HOME = "home";
   private final String ACTION_CREATE = "create-article";
+  private final String ACTION_SEARCH = "search";
   private final String ACTION_DETAIL = "article-detail";
   private final String ACTION_VIEW = "view";
+  private final String ACTION_NOTIFICATIONS = "notifications";
   private final String ACTION_EMOTION = "emotion";
   private final String ACTION_COMMENT = "comment";
   private final String ACTION_MY_ARTICLE = "myArticle";
@@ -36,6 +37,8 @@ public class MainController extends HttpServlet {
   private final String loginServlet = "LoginServlet";
   private final String registerServlet = "RegisterServlet";
   private final String logoutServlet = "LogoutServlet";
+  private final String notificationServlet = "NotificationServlet";
+  private final String searchArticleServlet = "SearchArticleServlet";
   private final String createArticleServlet = "CreateArticleServlet";
   private final String detailArticleServlet = "ViewArticleServlet";
   private final String emotionArticleServlet = "EmotionServlet";
@@ -82,6 +85,12 @@ public class MainController extends HttpServlet {
             break;
           case ACTION_COMMENT:
             url = commentArticleServlet;
+            break;
+          case ACTION_NOTIFICATIONS:
+            url = notificationServlet;
+            break;
+          case ACTION_SEARCH:
+            url = searchArticleServlet;
             break;
           default:
             break;

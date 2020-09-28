@@ -6,7 +6,6 @@
 package trihk.socialnetwork.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,12 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
   @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a"),
+  @NamedQuery(name = "Article.findAllByContentsLike", query = "SELECT a FROM Article a WHERE a.contents LIKE %:search%"),
   @NamedQuery(name = "Article.findById", query = "SELECT a FROM Article a WHERE a.id = :id"),
   @NamedQuery(name = "Article.findByTitle", query = "SELECT a FROM Article a WHERE a.title = :title"),
   @NamedQuery(name = "Article.findByDescription", query = "SELECT a FROM Article a WHERE a.description = :description"),
@@ -44,14 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Article.findByNumOfDislike", query = "SELECT a FROM Article a WHERE a.numOfDislike = :numOfDislike"),
   @NamedQuery(name = "Article.findByContents", query = "SELECT a FROM Article a WHERE a.contents = :contents")})
 public class Article implements Serializable {
-
-  @OneToMany(mappedBy = "articleId")
-  private Collection<ArticleComment> articleCommentCollection;
-  @OneToMany(mappedBy = "articleId")
-  private Collection<Notification> notificationCollection;
-
-  @OneToMany(mappedBy = "article")
-  private Collection<Comment> commentCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -83,8 +73,6 @@ public class Article implements Serializable {
   @JoinColumn(name = "status_id", referencedColumnName = "id")
   @ManyToOne
   private ArticleStatus statusId;
-  @OneToMany(mappedBy = "articleId")
-  private Collection<ArticleEmotion> articleEmotionCollection;
 
   public Article() {
   }
@@ -181,15 +169,6 @@ public class Article implements Serializable {
     this.statusId = statusId;
   }
 
-  @XmlTransient
-  public Collection<ArticleEmotion> getArticleEmotionCollection() {
-    return articleEmotionCollection;
-  }
-
-  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
-    this.articleEmotionCollection = articleEmotionCollection;
-  }
-
   @Override
   public int hashCode() {
     int hash = 0;
@@ -213,33 +192,6 @@ public class Article implements Serializable {
   @Override
   public String toString() {
     return "trihk.socialnetwork.entity.Article[ id=" + id + " ]";
-  }
-
-  @XmlTransient
-  public Collection<Comment> getCommentCollection() {
-    return commentCollection;
-  }
-
-  public void setCommentCollection(Collection<Comment> commentCollection) {
-    this.commentCollection = commentCollection;
-  }
-
-  @XmlTransient
-  public Collection<ArticleComment> getArticleCommentCollection() {
-    return articleCommentCollection;
-  }
-
-  public void setArticleCommentCollection(Collection<ArticleComment> articleCommentCollection) {
-    this.articleCommentCollection = articleCommentCollection;
-  }
-
-  @XmlTransient
-  public Collection<Notification> getNotificationCollection() {
-    return notificationCollection;
-  }
-
-  public void setNotificationCollection(Collection<Notification> notificationCollection) {
-    this.notificationCollection = notificationCollection;
   }
   
 }

@@ -94,6 +94,34 @@ public class ArticleDAO implements Serializable {
     return list;
   }
 
+  public List<Article> listAll(String searchValue) {
+    List<Article> list = null;
+    EntityManager entityManager = DBUtils.getEntityManager();
+    try {
+      entityManager.getTransaction().begin();
+      list = entityManager.createNamedQuery("Article.findAllByContentsLike")
+              .setParameter("search", searchValue)
+              .getResultList();
+      if (list.size() > 0) {
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()) {
+          if (((Article) iterator.next()).getStatusId().getId() == 2) {
+            iterator.remove();
+          }
+        }
+        System.out.println(Arrays.toString(list.toArray()));
+      }
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+    } finally {
+      if (entityManager != null) {
+        entityManager.close();
+      }
+    }
+    return list;
+  }
+
   public Article getOne(int id) {
     Article article = null;
     EntityManager entityManager = DBUtils.getEntityManager();

@@ -45,7 +45,7 @@
                   <div class="post-meta d-flex justify-content-between">
                     <c:set var="article" value="${requestScope.ARTICLE}"/>
                     <div class="date meta-last">
-                      <f:formatDate type="both" timeStyle="short" dateStyle="short" 
+                      <f:formatDate type="both" timeStyle="short" dateStyle="medium" 
                                     value="${article.createdDate}"/>
                       <a href="#" class="author d-flex align-items-center flex-wrap">
                         <div class="title"><span>${article.authorEmail.name}</span></div>
@@ -66,29 +66,45 @@
                       <button type="button" class="btn btn-outline-secondary btn-sm" onclick="dislike(${article.id})">
                         <c:if test="${dislike == 0}">Dislike</c:if>
                         <c:if test="${dislike > 0}">${dislike} Dislike</c:if>
-                      </button>
-                    </div>
+                        </button>
+                      </div>
 
-                  </footer>
+                    </footer>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="post-comments">
-            <header>
-              <h3 class="h6">Post Comments<span class="no-of-comments">(3)</span></h3>
-            </header>
-            <div class="comment">
-              <div class="comment-header d-flex justify-content-between">
-                <div class="user d-flex align-items-center">
-                  <div class="image"><img src="https://d19m59y37dris4.cloudfront.net/blog/1-2-1/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                  <div class="title"><strong>Jabi Hernandiz</strong><span class="date">May 2016</span></div>
+            <div class="post-comments">
+            <c:set var="listComments" value="${requestScope.COMMENTS}"/>
+            <c:if test="${not empty listComments}">
+              <header>
+                <h3 class="h6">Post Comments<span class="no-of-comments">(${listComments.size()})</span></h3>
+              </header>
+              <c:forEach items="${listComments}" var="comment"> 
+                <div class="comment">
+                  <div class="comment-header d-flex justify-content-between">
+                    <div class="user d-flex align-items-center">
+                      <div class="image"><img src="https://d19m59y37dris4.cloudfront.net/blog/1-2-1/img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
+                      <div class="title">
+                        <strong>${comment.ownerEmail.name}</strong>
+                        <span class="date">
+                          <f:formatDate type="both" timeStyle="short" dateStyle="medium" 
+                                        value="${comment.time}"/>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment-body">
+                    <p>${comment.contents}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="comment-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-              </div>
-            </div>
+              </c:forEach>           
+            </c:if>
+            <c:if test="${empty listComments}">
+              <header>
+                <h3 class="h6">Post Comments</h3>
+              </header>
+            </c:if>
           </div>
           <div class="add-comment">
             <header>
@@ -97,7 +113,9 @@
             <form action="MainController" method="POST" class="commenting-form">
               <div class="row">
                 <div class="form-group col-md-12"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
-                  <textarea name="comment" id="usercomment" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
+                  <textarea name="comment" id="usercomment" required maxlength="500" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
+                  <input type="hidden" name="articleId" value="${article.id}"/>
+                  <input type="hidden" name="authEmail" value="${article.authorEmail.email}"/>
                 </div>
                 <div class="form-group col-md-12">
                   <button type="submit" name="action" value="comment" class="btn btn-secondary">Submit Comment</button>

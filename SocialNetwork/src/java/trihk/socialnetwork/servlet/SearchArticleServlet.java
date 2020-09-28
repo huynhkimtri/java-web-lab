@@ -6,20 +6,22 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import trihk.socialnetwork.entity.Article;
+import trihk.socialnetwork.service.ArticleService;
 
 /**
  *
  * @author TriHuynh
  */
-@WebServlet(name = "NotificationServlet", urlPatterns = {"/NotificationServlet"})
-public class NotificationServlet extends HttpServlet {
+@WebServlet(name = "SearchArticleServlet", urlPatterns = {"/SearchArticleServlet"})
+public class SearchArticleServlet extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,9 +35,11 @@ public class NotificationServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-    String path = "notification.jsp";
-    HttpSession session = request.getSession();
-//    String email = ((Account) session.getAttribute("USER")).getEmail();
+    String path = "search.jsp";
+    String searchValue = request.getParameter("searchValue");
+    ArticleService service = new ArticleService();
+    List<Article> listOfArticles = service.getList(searchValue);
+    request.setAttribute("LIST_SEARCH_ARTICLES", listOfArticles);
     RequestDispatcher dispatcher = request.getRequestDispatcher(path);
     dispatcher.forward(request, response);
   }

@@ -13,13 +13,13 @@ import trihk.socialnetwork.dao.AccountDAO;
 import trihk.socialnetwork.dao.ArticleDAO;
 import trihk.socialnetwork.dao.ArticleEmotionDAO;
 import trihk.socialnetwork.dao.ArticleStatusDAO;
-import trihk.socialnetwork.dao.CommentDAO;
+import trihk.socialnetwork.dao.ArticleCommentDAO;
 import trihk.socialnetwork.dao.NotificationDAO;
 import trihk.socialnetwork.dao.NotificationTypeDAO;
 import trihk.socialnetwork.entity.Account;
 import trihk.socialnetwork.entity.Article;
+import trihk.socialnetwork.entity.ArticleComment;
 import trihk.socialnetwork.entity.ArticleEmotion;
-import trihk.socialnetwork.entity.Comment;
 import trihk.socialnetwork.entity.Notification;
 
 /**
@@ -45,7 +45,22 @@ public class ArticleService {
     return new ArticleDAO().create(article);
   }
 
+  public void delete(int articleId) {
+    ArticleDAO dao = new ArticleDAO();
+    Article article = dao.getOne(articleId);
+    article.setStatusId(new ArticleStatusDAO().getById(2));
+    dao.update(article);
+  }
+
   public List<Article> getList() {
+    List<Article> listOfArticles;
+    ArticleDAO dao = new ArticleDAO();
+    listOfArticles = dao.listAll();
+    System.out.println(Arrays.toString(listOfArticles.toArray()));
+    return listOfArticles;
+  }
+
+  public List<Article> getList(String searchValue) {
     List<Article> listOfArticles;
     ArticleDAO dao = new ArticleDAO();
     listOfArticles = dao.listAll();
@@ -90,17 +105,22 @@ public class ArticleService {
     dao.update(article);
   }
 
-  public Comment comment(int articleId, String authEmail, String contents) {
+  public List<ArticleComment> getListComment(int articleId) {
+    ArticleCommentDAO dao = new ArticleCommentDAO();
+    return dao.getList(articleId, Boolean.FALSE);
+  }
+
+  public ArticleComment comment(int articleId, String authEmail, String contents) {
     ArticleDAO dao = new ArticleDAO();
     Article article = dao.getOne(articleId);
-    CommentDAO commentDao = new CommentDAO();
-    Comment comment = new Comment();
+    ArticleCommentDAO commentDao = new ArticleCommentDAO();
+    ArticleComment comment = new ArticleComment();
     Account acc = new AccountDAO().getByEmail(authEmail);
-    comment.setArticle(article);
+    comment.setArticleId(article);
     comment.setContents(contents);
-    comment.setCreatedDate(new Date());
+    comment.setTime(new Date());
     comment.setIsDelete(Boolean.FALSE);
-    comment.setOwner(acc);
+    comment.setOwnerEmail(acc);
     return commentDao.create(comment);
   }
 

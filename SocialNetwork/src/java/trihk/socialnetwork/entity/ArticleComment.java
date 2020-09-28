@@ -34,7 +34,14 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "ArticleComment.findById", query = "SELECT a FROM ArticleComment a WHERE a.id = :id"),
   @NamedQuery(name = "ArticleComment.findByContents", query = "SELECT a FROM ArticleComment a WHERE a.contents = :contents"),
   @NamedQuery(name = "ArticleComment.findByTime", query = "SELECT a FROM ArticleComment a WHERE a.time = :time"),
-  @NamedQuery(name = "ArticleComment.findByIsDelete", query = "SELECT a FROM ArticleComment a WHERE a.isDelete = :isDelete")})
+  @NamedQuery(name = "ArticleComment.findByIsDelete", query = "SELECT a FROM ArticleComment a WHERE a.isDelete = :isDelete"),
+  @NamedQuery(name = "ArticleComment.findAllByArticle", 
+          query = "SELECT a FROM ArticleComment a WHERE a.articleId.id = :articleId AND a.isDelete = :isDelete  ORDER BY a.time"),
+  @NamedQuery(name = "ArticleComment.countByArticle",
+          query = "SELECT COUNT(a.id) FROM ArticleComment a WHERE a.articleId = :articleId AND a.isDelete = :isDelete ORDER BY a.time"),
+  @NamedQuery(name = "ArticleComment.findAllByArticleAndOwner",
+          query = "SELECT a FROM ArticleComment a WHERE a.articleId = :articleId AND a.ownerEmail = :ownerEmail AND a.isDelete = :isDelete ORDER BY a.time")
+})
 public class ArticleComment implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -136,5 +143,5 @@ public class ArticleComment implements Serializable {
   public String toString() {
     return "trihk.socialnetwork.entity.ArticleComment[ id=" + id + " ]";
   }
-  
+
 }

@@ -6,6 +6,8 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import trihk.socialnetwork.entity.Account;
+import trihk.socialnetwork.entity.ArticleComment;
+import trihk.socialnetwork.service.ArticleService;
 
 /**
  *
@@ -34,12 +38,23 @@ public class CommentServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-    String comment = request.getParameter("comment");
-    String path = "ViewArticleServlet";
-    HttpSession session = request.getSession();
-    String email = ((Account) session.getAttribute("USER")).getEmail();
-    RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-    dispatcher.forward(request, response);
+    String contents = request.getParameter("comment");
+    try {
+      int articleId = Integer.parseInt(request.getParameter("articleId"));
+      String authorEmail = request.getParameter("authEmail");
+      HttpSession session = request.getSession();
+      String email = ((Account) session.getAttribute("USER")).getEmail();
+      ArticleService service = new ArticleService();
+      ArticleComment comment = service.comment(articleId, email, contents);
+      if (comment != null && !email.equals(authorEmail)) {
+        int typeNoti = 1; // comment has type equals 1 in database;
+        service.notify(articleId, typeNoti, email, email);
+      }
+      String urlRewrite = "MainController?action=view&id=" + String.valueOf(articleId);
+      response.sendRedirect(urlRewrite);
+    } catch (NullPointerException e) {
+      response.sendRedirect("./");
+    }
 
   }
 
