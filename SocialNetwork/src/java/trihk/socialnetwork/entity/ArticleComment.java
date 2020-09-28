@@ -27,18 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author TriHuynh
  */
 @Entity
-@Table(name = "Comment", catalog = "SocialNetwork", schema = "dbo")
+@Table(name = "ArticleComment", catalog = "SocialNetwork", schema = "dbo")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-  @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-  @NamedQuery(name = "Comment.findByContents", query = "SELECT c FROM Comment c WHERE c.contents = :contents"),
-  @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate"),
-  @NamedQuery(name = "Comment.findByIsDelete", query = "SELECT c FROM Comment c WHERE c.isDelete = :isDelete"),
-  @NamedQuery(name = "Comment.findAllByArticle", query = "SELECT c FROM Comment c WHERE c.article = :articleId AND c.isDelete = :isDelete ORDER BY c.createdDate"),
-  @NamedQuery(name = "Comment.CountByArticle", query = "SELECT COUNT(c.id) FROM Comment c WHERE c.article = :articleId AND c.isDelete = :isDelete ORDER BY c.createdDate"),
-  @NamedQuery(name = "Comment.findAllByArticleAndOwner", query = "SELECT c FROM Comment c WHERE c.article = :articleId AND c.owner = :ownerEmail AND c.isDelete = :isDelete ORDER BY c.createdDate")})
-public class Comment implements Serializable {
+  @NamedQuery(name = "ArticleComment.findAll", query = "SELECT a FROM ArticleComment a"),
+  @NamedQuery(name = "ArticleComment.findById", query = "SELECT a FROM ArticleComment a WHERE a.id = :id"),
+  @NamedQuery(name = "ArticleComment.findByContents", query = "SELECT a FROM ArticleComment a WHERE a.contents = :contents"),
+  @NamedQuery(name = "ArticleComment.findByTime", query = "SELECT a FROM ArticleComment a WHERE a.time = :time"),
+  @NamedQuery(name = "ArticleComment.findByIsDelete", query = "SELECT a FROM ArticleComment a WHERE a.isDelete = :isDelete")})
+public class ArticleComment implements Serializable {
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -48,22 +45,22 @@ public class Comment implements Serializable {
   private Integer id;
   @Column(name = "contents", length = 2147483647)
   private String contents;
-  @Column(name = "created_date")
+  @Column(name = "time")
   @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
+  private Date time;
   @Column(name = "is_delete")
   private Boolean isDelete;
-  @JoinColumn(name = "owner", referencedColumnName = "email")
+  @JoinColumn(name = "owner_email", referencedColumnName = "email")
   @ManyToOne
-  private Account owner;
-  @JoinColumn(name = "article", referencedColumnName = "id")
+  private Account ownerEmail;
+  @JoinColumn(name = "article_id", referencedColumnName = "id")
   @ManyToOne
-  private Article article;
+  private Article articleId;
 
-  public Comment() {
+  public ArticleComment() {
   }
 
-  public Comment(Integer id) {
+  public ArticleComment(Integer id) {
     this.id = id;
   }
 
@@ -83,12 +80,12 @@ public class Comment implements Serializable {
     this.contents = contents;
   }
 
-  public Date getCreatedDate() {
-    return createdDate;
+  public Date getTime() {
+    return time;
   }
 
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
+  public void setTime(Date time) {
+    this.time = time;
   }
 
   public Boolean getIsDelete() {
@@ -99,20 +96,20 @@ public class Comment implements Serializable {
     this.isDelete = isDelete;
   }
 
-  public Account getOwner() {
-    return owner;
+  public Account getOwnerEmail() {
+    return ownerEmail;
   }
 
-  public void setOwner(Account owner) {
-    this.owner = owner;
+  public void setOwnerEmail(Account ownerEmail) {
+    this.ownerEmail = ownerEmail;
   }
 
-  public Article getArticle() {
-    return article;
+  public Article getArticleId() {
+    return articleId;
   }
 
-  public void setArticle(Article article) {
-    this.article = article;
+  public void setArticleId(Article articleId) {
+    this.articleId = articleId;
   }
 
   @Override
@@ -125,10 +122,10 @@ public class Comment implements Serializable {
   @Override
   public boolean equals(Object object) {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Comment)) {
+    if (!(object instanceof ArticleComment)) {
       return false;
     }
-    Comment other = (Comment) object;
+    ArticleComment other = (ArticleComment) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
       return false;
     }
@@ -137,7 +134,7 @@ public class Comment implements Serializable {
 
   @Override
   public String toString() {
-    return "trihk.socialnetwork.entity.Comment[ id=" + id + " ]";
+    return "trihk.socialnetwork.entity.ArticleComment[ id=" + id + " ]";
   }
-
+  
 }

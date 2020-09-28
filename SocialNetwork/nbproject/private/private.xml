@@ -12,6 +12,7 @@
             <file>file:/G:/Java/Lab231/SocialNetwork/web/article-details.jsp</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/service/ArticleService.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/ArticleStatus.java</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/Comment.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/service/AccountService.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/EmotionServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/Article.java</file>
@@ -21,6 +22,7 @@
             <file>file:/G:/Java/Lab231/SocialNetwork/web/index.html</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/CommentServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/css/fontawesome.min.css</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/NotificationMapper.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/dao/ArticleDAO.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/component/header.jspf</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/login.jsp</file>
@@ -30,6 +32,7 @@
             <file>file:/G:/Java/Lab231/SocialNetwork/web/WEB-INF/web.xml</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/component/navigation.jspf</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/web/component/headLink.jspf</file>
+            <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/dao/CommentDAO.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/entity/AccountRole.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/servlet/HomeServlet.java</file>
             <file>file:/G:/Java/Lab231/SocialNetwork/src/java/trihk/socialnetwork/utils/Constants.java</file>

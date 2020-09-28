@@ -37,6 +37,13 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "ArticleEmotion.findByCreatedDate", query = "SELECT a FROM ArticleEmotion a WHERE a.createdDate = :createdDate")})
 public class ArticleEmotion implements Serializable {
 
+  @Column(name = "time")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date time;
+  @JoinColumn(name = "account_email", referencedColumnName = "email")
+  @ManyToOne
+  private Account accountEmail;
+
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,6 +142,22 @@ public class ArticleEmotion implements Serializable {
   @Override
   public String toString() {
     return "trihk.socialnetwork.entity.ArticleEmotion[ id=" + id + " ]";
+  }
+
+  public Date getTime() {
+    return time;
+  }
+
+  public void setTime(Date time) {
+    this.time = time;
+  }
+
+  public Account getAccountEmail() {
+    return accountEmail;
+  }
+
+  public void setAccountEmail(Account accountEmail) {
+    this.accountEmail = accountEmail;
   }
   
 }

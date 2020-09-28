@@ -14,10 +14,13 @@ import trihk.socialnetwork.dao.ArticleDAO;
 import trihk.socialnetwork.dao.ArticleEmotionDAO;
 import trihk.socialnetwork.dao.ArticleStatusDAO;
 import trihk.socialnetwork.dao.CommentDAO;
+import trihk.socialnetwork.dao.NotificationDAO;
+import trihk.socialnetwork.dao.NotificationTypeDAO;
 import trihk.socialnetwork.entity.Account;
 import trihk.socialnetwork.entity.Article;
 import trihk.socialnetwork.entity.ArticleEmotion;
 import trihk.socialnetwork.entity.Comment;
+import trihk.socialnetwork.entity.Notification;
 
 /**
  *
@@ -99,5 +102,30 @@ public class ArticleService {
     comment.setIsDelete(Boolean.FALSE);
     comment.setOwner(acc);
     return commentDao.create(comment);
+  }
+
+  public void notify(int articleId, int type, String actorEmail, String notifierEmail) {
+    NotificationDAO notiDao = new NotificationDAO();
+    Notification noti = notiDao.getOne(actorEmail, articleId);
+    if (noti != null) {
+      if (noti.getTypeId().getId() == 2 || noti.getTypeId().getId() == 3) {
+        noti.setTime(new Date());
+        noti.setTypeId(new NotificationTypeDAO().getOneById(type));
+        notiDao.update(noti);
+      }
+    } else {
+      newNoti(articleId, type, actorEmail, notifierEmail);
+    }
+  }
+
+  private Notification newNoti(int articleId, int type, String actorEmail, String notifierEmail) {
+    Notification noti = new Notification();
+    NotificationDAO notiDao = new NotificationDAO();
+    noti.setArticleId(new ArticleDAO().getOne(articleId));
+    noti.setActor(new AccountDAO().getByEmail(actorEmail));
+    noti.setNotifier(new AccountDAO().getByEmail(notifierEmail));
+    noti.setTime(new Date());
+    noti.setTypeId(new NotificationTypeDAO().getOneById(type));
+    return notiDao.create(noti);
   }
 }

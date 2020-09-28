@@ -29,6 +29,7 @@ public class MainController extends HttpServlet {
   private final String ACTION_VIEW = "view";
   private final String ACTION_EMOTION = "emotion";
   private final String ACTION_COMMENT = "comment";
+  private final String ACTION_MY_ARTICLE = "myArticle";
 
   private final String homeServlet = "HomeServlet";
   private final String homeAdminServlet = "HomeAdminServlet";

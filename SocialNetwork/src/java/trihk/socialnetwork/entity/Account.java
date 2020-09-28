@@ -35,6 +35,13 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Account.findByIsActive", query = "SELECT a FROM Account a WHERE a.isActive = :isActive")})
 public class Account implements Serializable {
 
+  @OneToMany(mappedBy = "ownerEmail")
+  private Collection<ArticleComment> articleCommentCollection;
+  @OneToMany(mappedBy = "notifier")
+  private Collection<Notification> notificationCollection;
+  @OneToMany(mappedBy = "actor")
+  private Collection<Notification> notificationCollection1;
+
   @OneToMany(mappedBy = "owner")
   private Collection<Comment> commentCollection;
 
@@ -157,6 +164,33 @@ public class Account implements Serializable {
 
   public void setCommentCollection(Collection<Comment> commentCollection) {
     this.commentCollection = commentCollection;
+  }
+
+  @XmlTransient
+  public Collection<ArticleComment> getArticleCommentCollection() {
+    return articleCommentCollection;
+  }
+
+  public void setArticleCommentCollection(Collection<ArticleComment> articleCommentCollection) {
+    this.articleCommentCollection = articleCommentCollection;
+  }
+
+  @XmlTransient
+  public Collection<Notification> getNotificationCollection() {
+    return notificationCollection;
+  }
+
+  public void setNotificationCollection(Collection<Notification> notificationCollection) {
+    this.notificationCollection = notificationCollection;
+  }
+
+  @XmlTransient
+  public Collection<Notification> getNotificationCollection1() {
+    return notificationCollection1;
+  }
+
+  public void setNotificationCollection1(Collection<Notification> notificationCollection1) {
+    this.notificationCollection1 = notificationCollection1;
   }
 
 }

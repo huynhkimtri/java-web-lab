@@ -11,6 +11,10 @@
     <class>trihk.socialnetwork.entity.AccountRole</class>
     <class>trihk.socialnetwork.entity.Account</class>
     <class>trihk.socialnetwork.entity.ArticleEmotion</class>
+    <class>trihk.socialnetwork.entity.Comment</class>
+    <class>trihk.socialnetwork.entity.ArticleComment</class>
+    <class>trihk.socialnetwork.entity.Notification</class>
+    <class>trihk.socialnetwork.entity.NotificationType</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=SocialNetwork"/>
