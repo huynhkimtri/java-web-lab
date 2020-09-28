@@ -36,9 +36,9 @@ public class SearchArticleServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
     String path = "search.jsp";
-    String searchValue = request.getParameter("searchValue");
+    String keyword = request.getParameter("keyword");
     ArticleService service = new ArticleService();
-    List<Article> listOfArticles = service.getList(searchValue);
+    List<Article> listOfArticles = service.getList(keyword);
     request.setAttribute("LIST_SEARCH_ARTICLES", listOfArticles);
     RequestDispatcher dispatcher = request.getRequestDispatcher(path);
     dispatcher.forward(request, response);

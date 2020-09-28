@@ -89,10 +89,10 @@
             <header>
               <h3 class="h6">Search the Article</h3>
             </header>
-            <form action="#" class="search-form">
+            <form action="MainController" method="GET" class="search-form">
               <div class="form-group">
-                <input type="search" placeholder="What are you looking for?">
-                <button type="submit" class="submit"><i class="icon-search"></i></button>
+                <input type="search" name="keyword" placeholder="What are you looking for?">
+                <button type="submit" value="search" name="action" class="submit"><i class="icon-search"></i></button>
               </div>
             </form>
           </div>

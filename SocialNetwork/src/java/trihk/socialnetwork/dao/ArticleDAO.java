@@ -67,6 +67,36 @@ public class ArticleDAO implements Serializable {
     return null;
   }
 
+  public List<Article> listAllPagination(String keyword, int numOfItem, int pageIndex) {
+    List<Article> list = null;
+    EntityManager entityManager = DBUtils.getEntityManager();
+    try {
+      entityManager.getTransaction().begin();
+      list = entityManager.createNamedQuery("Article.findAllByContentsLike")
+              .setParameter("search", '%' + keyword + '%')
+              .setMaxResults(numOfItem)
+              .setFirstResult(pageIndex * numOfItem)
+              .getResultList();
+      if (list.size() > 0) {
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()) {
+          if (((Article) iterator.next()).getStatusId().getId() == 2) {
+            iterator.remove();
+          }
+        }
+        System.out.println(Arrays.toString(list.toArray()));
+      }
+      entityManager.getTransaction().commit();
+    } catch (Exception e) {
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+    } finally {
+      if (entityManager != null) {
+        entityManager.close();
+      }
+    }
+    return list;
+  }
+
   public List<Article> listAll() {
     List<Article> list = null;
     EntityManager entityManager = DBUtils.getEntityManager();
@@ -94,13 +124,13 @@ public class ArticleDAO implements Serializable {
     return list;
   }
 
-  public List<Article> listAll(String searchValue) {
+  public List<Article> listAll(String keyword) {
     List<Article> list = null;
     EntityManager entityManager = DBUtils.getEntityManager();
     try {
       entityManager.getTransaction().begin();
       list = entityManager.createNamedQuery("Article.findAllByContentsLike")
-              .setParameter("search", searchValue)
+              .setParameter("search", keyword)
               .getResultList();
       if (list.size() > 0) {
         Iterator iterator = list.iterator();

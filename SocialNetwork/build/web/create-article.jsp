@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                   <p style="margin-bottom: 0; font-weight: bold" class="mb-2">Image Url:</p>
-                  <input class="form-control" type="url" name="txtImageUrl" rows="2" required autofocus />
+                  <input class="form-control" id="txtImageUrl" type="url" name="txtImageUrl" rows="2" required autofocus />
                 </div>
                 <div class="form-group">
                   <p style="margin-bottom: 0; font-weight: bold" class="mb-2">Description:</p>
@@ -73,5 +73,35 @@
         </div>
       </div>
     </div>
+    <script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+    <script>
+      function initImagePicker() {
+        const client = filestack.init('AgFmzdgAS0uIX18FOav8Iz');
+        const options = {
+          fromSources: ['local_file_system'],
+          accept: ["image/*"],
+          transformations: {
+            crop: true,
+            rotate: true
+          },
+          uploadConfig: {
+            retry: 5,
+            timeout: 60000
+          },
+          onFileSelected: file => {
+            if (file.size > 2048 * 1000) {
+              throw new Error('File too big, select something smaller than 2MB');
+            }
+          },
+          onUploadDone: result => {
+            if (result.filesUploaded.length === 1) {
+              document.getElementById("img-preview").setAttribute("src", result.filesUploaded[0].url);
+              document.getElementById("txtImageUrl").value = result.filesUploaded[0].url;
+            }
+          }
+        };
+        client.picker(options).open();
+      }
+    </script>
   </body>
 </html>

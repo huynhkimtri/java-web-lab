@@ -56,15 +56,20 @@ public class ArticleService {
     List<Article> listOfArticles;
     ArticleDAO dao = new ArticleDAO();
     listOfArticles = dao.listAll();
-    System.out.println(Arrays.toString(listOfArticles.toArray()));
     return listOfArticles;
   }
 
   public List<Article> getList(String searchValue) {
     List<Article> listOfArticles;
     ArticleDAO dao = new ArticleDAO();
-    listOfArticles = dao.listAll();
-    System.out.println(Arrays.toString(listOfArticles.toArray()));
+    listOfArticles = dao.listAll(searchValue);
+    return listOfArticles;
+  }
+
+  public List<Article> getListPagination(String searchValue, int numOfItems, int pageIndex) {
+    List<Article> listOfArticles;
+    ArticleDAO dao = new ArticleDAO();
+    listOfArticles = dao.listAllPagination(searchValue, numOfItems, pageIndex);
     return listOfArticles;
   }
 

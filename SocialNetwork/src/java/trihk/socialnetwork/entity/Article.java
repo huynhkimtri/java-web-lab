@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
   @NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a"),
-  @NamedQuery(name = "Article.findAllByContentsLike", query = "SELECT a FROM Article a WHERE a.contents LIKE %:search%"),
+  @NamedQuery(name = "Article.findAllByContentsLike",
+          query = "SELECT a FROM Article a WHERE a.contents LIKE :search ORDER BY a.createdDate"),
   @NamedQuery(name = "Article.findById", query = "SELECT a FROM Article a WHERE a.id = :id"),
   @NamedQuery(name = "Article.findByTitle", query = "SELECT a FROM Article a WHERE a.title = :title"),
   @NamedQuery(name = "Article.findByDescription", query = "SELECT a FROM Article a WHERE a.description = :description"),
@@ -193,5 +194,5 @@ public class Article implements Serializable {
   public String toString() {
     return "trihk.socialnetwork.entity.Article[ id=" + id + " ]";
   }
-  
+
 }
