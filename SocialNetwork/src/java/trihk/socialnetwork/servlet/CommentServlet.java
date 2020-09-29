@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import trihk.socialnetwork.entity.Account;
 import trihk.socialnetwork.entity.ArticleComment;
 import trihk.socialnetwork.service.ArticleService;
+import trihk.socialnetwork.service.NotificationService;
 
 /**
  *
@@ -41,14 +42,15 @@ public class CommentServlet extends HttpServlet {
     String contents = request.getParameter("comment");
     try {
       int articleId = Integer.parseInt(request.getParameter("articleId"));
-      String authorEmail = request.getParameter("authEmail");
+      String notifierEmail = request.getParameter("notifierEmail");
       HttpSession session = request.getSession();
       String email = ((Account) session.getAttribute("USER")).getEmail();
       ArticleService service = new ArticleService();
+      NotificationService notiService = new NotificationService();
       ArticleComment comment = service.comment(articleId, email, contents);
-      if (comment != null && !email.equals(authorEmail)) {
+      if (comment != null && !email.equals(notifierEmail)) {
         int typeNoti = 1; // comment has type equals 1 in database;
-        service.notify(articleId, typeNoti, email, email);
+        notiService.notify(articleId, typeNoti, email, notifierEmail);
       }
       String urlRewrite = "MainController?action=view&id=" + String.valueOf(articleId);
       response.sendRedirect(urlRewrite);

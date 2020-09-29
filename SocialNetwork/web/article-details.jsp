@@ -58,12 +58,14 @@
                   <footer class="post-footer d-flex align-items-center">
                     <div class="comments meta-last mr-2">
                       <c:set value="${article.numOfLike}" var="like"/>
-                      <button type="button" class="btn btn-outline-success btn-sm mr-1" onclick="like(${article.id})">
+                      <button type="button" class="btn btn-outline-success btn-sm mr-1"
+                              onclick="like(${article.id}, ${article.authorEmail.email})">
                         <c:if test="${like == 0}">Like</c:if>
                         <c:if test="${like > 0}">${like} Like</c:if>
                         </button>
                       <c:set value="${article.numOfDislike}" var="dislike"/>
-                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="dislike(${article.id})">
+                      <button type="button" class="btn btn-outline-secondary btn-sm"
+                              onclick="dislike(${article.id}, ${article.authorEmail.email})">
                         <c:if test="${dislike == 0}">Dislike</c:if>
                         <c:if test="${dislike > 0}">${dislike} Dislike</c:if>
                         </button>
@@ -115,7 +117,7 @@
                 <div class="form-group col-md-12"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
                   <textarea name="comment" id="usercomment" required maxlength="500" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
                   <input type="hidden" name="articleId" value="${article.id}"/>
-                  <input type="hidden" name="authEmail" value="${article.authorEmail.email}"/>
+                  <input type="hidden" name="notifierEmail" value="${article.authorEmail.email}"/>
                 </div>
                 <div class="form-group col-md-12">
                   <button type="submit" name="action" value="comment" class="btn btn-secondary">Submit Comment</button>
@@ -178,5 +180,39 @@
       </div>
       <!-- /.row -->
     </div>
+    <script>
+      const like = function (id, email) {
+        const btn = document.getElementsByClassName("btn btn-outline-success");
+        btn.className += " active";
+        const url = new URL(this.document.URL);
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+          }
+        };
+        const uri = url.origin + url.pathname
+                + "?action=emotion&id=" + id
+                + "&emotion=like"
+                + "&notifierEmail=" + email;
+        xhttp.open("POST", uri, true);
+        xhttp.send();
+      };
+      const dislike = function (id, email) {
+        const btn = document.getElementsByClassName("btn btn-outline-secondary");
+        btn.className += " active";
+        const url = new URL(this.document.URL);
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+          }
+        };
+        const uri = url.origin + url.pathname
+                + "?action=emotion&id=" + id
+                + "&emotion=dislike"
+                + "&notifierEmail=" + email;
+        xhttp.open("POST", uri, true);
+        xhttp.send();
+      };
+    </script>
   </body>
 </html>

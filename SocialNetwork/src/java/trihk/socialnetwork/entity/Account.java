@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Account.findByIsActive", query = "SELECT a FROM Account a WHERE a.isActive = :isActive")})
 public class Account implements Serializable {
 
+  @OneToMany(mappedBy = "accountEmail")
+  private Collection<ArticleEmotion> articleEmotionCollection;
+
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -132,6 +135,15 @@ public class Account implements Serializable {
   @Override
   public String toString() {
     return "trihk.socialnetwork.entity.Account[ email=" + email + " ]";
+  }
+
+  @XmlTransient
+  public Collection<ArticleEmotion> getArticleEmotionCollection() {
+    return articleEmotionCollection;
+  }
+
+  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
+    this.articleEmotionCollection = articleEmotionCollection;
   }
   
 }

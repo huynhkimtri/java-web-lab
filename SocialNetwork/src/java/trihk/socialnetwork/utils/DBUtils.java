@@ -16,10 +16,11 @@ import javax.persistence.Persistence;
 public class DBUtils {
 
   private static EntityManagerFactory managerFactory;
+  private static final String SOCIAL_NETWORK_PU = "SocialNetworkPU";
 
   public static EntityManager getEntityManager() {
     if (managerFactory == null) {
-      managerFactory = Persistence.createEntityManagerFactory("SocialNetworkPU");
+      managerFactory = Persistence.createEntityManagerFactory(SOCIAL_NETWORK_PU);
     }
     return managerFactory.createEntityManager();
   }

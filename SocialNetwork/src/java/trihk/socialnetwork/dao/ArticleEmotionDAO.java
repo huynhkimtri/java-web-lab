@@ -49,4 +49,24 @@ public class ArticleEmotionDAO implements Serializable {
     }
     return emotion;
   }
+
+  public ArticleEmotion getOne(String accountEmail, int articleId) {
+    EntityManager em = DBUtils.getEntityManager();
+    ArticleEmotion emotion = null;
+    try {
+      em.getTransaction().begin();
+      emotion = (ArticleEmotion) em.createNamedQuery("ArticleEmotion.findByAccountAndArticle")
+              .setParameter("email", accountEmail)
+              .setParameter("id", articleId)
+              .getSingleResult();
+      em.getTransaction().commit();
+    } catch (Exception e) {
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+    } finally {
+      if (em != null) {
+        em.close();
+      }
+    }
+    return emotion;
+  }
 }

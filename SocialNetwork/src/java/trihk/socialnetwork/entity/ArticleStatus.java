@@ -97,5 +97,5 @@ public class ArticleStatus implements Serializable {
   public String toString() {
     return "trihk.socialnetwork.entity.ArticleStatus[ id=" + id + " ]";
   }
-
+  
 }

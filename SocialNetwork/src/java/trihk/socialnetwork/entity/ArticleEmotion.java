@@ -32,17 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
   @NamedQuery(name = "ArticleEmotion.findAll", query = "SELECT a FROM ArticleEmotion a"),
   @NamedQuery(name = "ArticleEmotion.findById", query = "SELECT a FROM ArticleEmotion a WHERE a.id = :id"),
+  @NamedQuery(name = "ArticleEmotion.findByAccountAndArticle",
+          query = "SELECT a FROM ArticleEmotion a WHERE a.accountEmail.email = :email AND a.articleId.id =:id"),
   @NamedQuery(name = "ArticleEmotion.findByIsLike", query = "SELECT a FROM ArticleEmotion a WHERE a.isLike = :isLike"),
   @NamedQuery(name = "ArticleEmotion.findByIsDislike", query = "SELECT a FROM ArticleEmotion a WHERE a.isDislike = :isDislike"),
-  @NamedQuery(name = "ArticleEmotion.findByCreatedDate", query = "SELECT a FROM ArticleEmotion a WHERE a.createdDate = :createdDate")})
+  @NamedQuery(name = "ArticleEmotion.findByTime", query = "SELECT a FROM ArticleEmotion a WHERE a.time = :time")})
 public class ArticleEmotion implements Serializable {
-
-  @Column(name = "time")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date time;
-  @JoinColumn(name = "account_email", referencedColumnName = "email")
-  @ManyToOne
-  private Account accountEmail;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -54,12 +49,12 @@ public class ArticleEmotion implements Serializable {
   private Boolean isLike;
   @Column(name = "is_dislike")
   private Boolean isDislike;
-  @Column(name = "created_date")
+  @Column(name = "time")
   @Temporal(TemporalType.TIMESTAMP)
-  private Date createdDate;
-  @JoinColumn(name = "author_email", referencedColumnName = "email")
+  private Date time;
+  @JoinColumn(name = "account_email", referencedColumnName = "email")
   @ManyToOne
-  private Account authorEmail;
+  private Account accountEmail;
   @JoinColumn(name = "article_id", referencedColumnName = "id")
   @ManyToOne
   private Article articleId;
@@ -95,20 +90,20 @@ public class ArticleEmotion implements Serializable {
     this.isDislike = isDislike;
   }
 
-  public Date getCreatedDate() {
-    return createdDate;
+  public Date getTime() {
+    return time;
   }
 
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
+  public void setTime(Date time) {
+    this.time = time;
   }
 
-  public Account getAuthorEmail() {
-    return authorEmail;
+  public Account getAccountEmail() {
+    return accountEmail;
   }
 
-  public void setAuthorEmail(Account authorEmail) {
-    this.authorEmail = authorEmail;
+  public void setAccountEmail(Account accountEmail) {
+    this.accountEmail = accountEmail;
   }
 
   public Article getArticleId() {
@@ -144,20 +139,4 @@ public class ArticleEmotion implements Serializable {
     return "trihk.socialnetwork.entity.ArticleEmotion[ id=" + id + " ]";
   }
 
-  public Date getTime() {
-    return time;
-  }
-
-  public void setTime(Date time) {
-    this.time = time;
-  }
-
-  public Account getAccountEmail() {
-    return accountEmail;
-  }
-
-  public void setAccountEmail(Account accountEmail) {
-    this.accountEmail = accountEmail;
-  }
-  
 }

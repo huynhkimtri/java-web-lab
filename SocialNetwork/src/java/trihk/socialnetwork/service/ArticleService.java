@@ -59,17 +59,17 @@ public class ArticleService {
     return listOfArticles;
   }
 
-  public List<Article> getList(String searchValue) {
+  public List<Article> getList(String keyword) {
     List<Article> listOfArticles;
     ArticleDAO dao = new ArticleDAO();
-    listOfArticles = dao.listAll(searchValue);
+    listOfArticles = dao.listAll(keyword);
     return listOfArticles;
   }
 
-  public List<Article> getListPagination(String searchValue, int numOfItems, int pageIndex) {
+  public List<Article> getListPagination(String keyword, int numOfItems, int pageIndex) {
     List<Article> listOfArticles;
     ArticleDAO dao = new ArticleDAO();
-    listOfArticles = dao.listAllPagination(searchValue, numOfItems, pageIndex);
+    listOfArticles = dao.listAllPagination(keyword, numOfItems, pageIndex);
     return listOfArticles;
   }
 
@@ -77,38 +77,7 @@ public class ArticleService {
     return new ArticleDAO().getOne(id);
   }
 
-  private void createEmotion(boolean isLike, Article article, int articleId, String authEmail) {
-    Account acc = new AccountDAO().getByEmail(authEmail);
-    ArticleEmotion emotion = new ArticleEmotion();
-    emotion.setAuthorEmail(acc);
-    emotion.setArticleId(article);
-    emotion.setCreatedDate(new Date());
-    emotion.setIsLike(isLike);
-    emotion.setIsDislike(!isLike);
-    new ArticleEmotionDAO().create(emotion);
-  }
 
-  public void like(int articleId, String authEmail) {
-    ArticleDAO dao = new ArticleDAO();
-    Article article = dao.getOne(articleId);
-    int like = article.getNumOfLike() + 1;
-    int dislike = article.getNumOfDislike() > 0 ? article.getNumOfDislike() - 1 : 0;
-    article.setNumOfLike(like);
-    article.setNumOfDislike(dislike);
-    createEmotion(Boolean.TRUE, article, articleId, authEmail);
-    dao.update(article);
-  }
-
-  public void dislike(int articleId, String authEmail) {
-    ArticleDAO dao = new ArticleDAO();
-    Article article = dao.getOne(articleId);
-    int dislike = article.getNumOfDislike() + 1;
-    int like = article.getNumOfLike() > 0 ? article.getNumOfLike() - 1 : 0;
-    article.setNumOfLike(like);
-    article.setNumOfDislike(dislike);
-    createEmotion(Boolean.FALSE, article, articleId, authEmail);
-    dao.update(article);
-  }
 
   public List<ArticleComment> getListComment(int articleId) {
     ArticleCommentDAO dao = new ArticleCommentDAO();

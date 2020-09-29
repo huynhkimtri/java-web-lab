@@ -25,6 +25,8 @@ import trihk.socialnetwork.utils.Constants;
 @WebServlet(name = "CreateArticleServlet", urlPatterns = {"/CreateArticleServlet"})
 public class CreateArticleServlet extends HttpServlet {
 
+  private final String IMG_DEFAULT = "uxart.io/downloads/openlist-html/all-template/images/post-8.jpg";
+
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
    * methods.
@@ -43,6 +45,9 @@ public class CreateArticleServlet extends HttpServlet {
       String title = request.getParameter("txtTitle").trim();
       String description = request.getParameter("txtDescription").trim();
       String imageUrl = request.getParameter("txtImageUrl").trim();
+      if (imageUrl.length() < 0) {
+        imageUrl = IMG_DEFAULT;
+      }
       String content = request.getParameter("txtContent").trim();
       HttpSession session = request.getSession();
       String email = ((Account) session.getAttribute("USER")).getEmail();

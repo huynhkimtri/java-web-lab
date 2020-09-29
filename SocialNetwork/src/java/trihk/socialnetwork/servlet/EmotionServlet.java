@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import trihk.socialnetwork.entity.Account;
-import trihk.socialnetwork.service.ArticleService;
+import trihk.socialnetwork.service.EmotionService;
+import trihk.socialnetwork.service.NotificationService;
 
 /**
  *
@@ -37,15 +38,23 @@ public class EmotionServlet extends HttpServlet {
     String emotion = request.getParameter("emotion");
     int articleId = Integer.parseInt(request.getParameter("id"));
     HttpSession session = request.getSession();
+    String notifierEmail = request.getParameter("notifierEmail");
     String email = ((Account) session.getAttribute("USER")).getEmail();
     if (emotion != null) {
-      ArticleService service = new ArticleService();
+      EmotionService service = new EmotionService();
+      NotificationService notiService = new NotificationService();
       switch (emotion) {
         case "like":
           service.like(articleId, email);
+          if (!email.equals(notifierEmail)) {
+            notiService.notify(articleId, 2, email, notifierEmail);
+          }
           break;
         case "dislike":
           service.dislike(articleId, email);
+          if (!email.equals(notifierEmail)) {
+            notiService.notify(articleId, 3, email, notifierEmail);
+          }
           break;
         default:
           break;

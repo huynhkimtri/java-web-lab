@@ -6,6 +6,7 @@
 package trihk.socialnetwork.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +46,9 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Article.findByNumOfDislike", query = "SELECT a FROM Article a WHERE a.numOfDislike = :numOfDislike"),
   @NamedQuery(name = "Article.findByContents", query = "SELECT a FROM Article a WHERE a.contents = :contents")})
 public class Article implements Serializable {
+
+  @OneToMany(mappedBy = "articleId")
+  private Collection<ArticleEmotion> articleEmotionCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -193,6 +199,15 @@ public class Article implements Serializable {
   @Override
   public String toString() {
     return "trihk.socialnetwork.entity.Article[ id=" + id + " ]";
+  }
+
+  @XmlTransient
+  public Collection<ArticleEmotion> getArticleEmotionCollection() {
+    return articleEmotionCollection;
+  }
+
+  public void setArticleEmotionCollection(Collection<ArticleEmotion> articleEmotionCollection) {
+    this.articleEmotionCollection = articleEmotionCollection;
   }
 
 }
