@@ -7,10 +7,13 @@ package trihk.socialnetwork.dao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import trihk.socialnetwork.entity.Notification;
 import trihk.socialnetwork.utils.DBUtils;
 
@@ -20,76 +23,125 @@ import trihk.socialnetwork.utils.DBUtils;
  */
 public class NotificationDAO implements Serializable {
 
-  public Notification create(Notification noti) {
-    EntityManager em = DBUtils.getEntityManager();
-    try {
-      em.getTransaction().begin();
-      em.persist(noti);
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      Logger.getLogger(getClass().getName())
-              .log(Level.SEVERE, "exception caught", e);
-    } finally {
-      if (em != null) {
-        em.close();
-      }
-    }
-    return noti;
-  }
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("SocialNetworkPU");
 
-  public List<Notification> getListByNoitifier(String email) {
-    EntityManager em = DBUtils.getEntityManager();
-    List<Notification> listNoti = new ArrayList<>();
-    try {
-      em.getTransaction().begin();
-      listNoti = em.createNamedQuery("Notification.findByNotifirer")
-              .setParameter("notifier", email)
-              .getResultList();
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      Logger.getLogger(getClass().getName())
-              .log(Level.SEVERE, "exception caught", e);
-    } finally {
-      if (em != null) {
-        em.close();
-      }
+    public Notification create(Notification noti) {
+        EntityManager em = DBUtils.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(noti);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return noti;
     }
-    return listNoti;
-  }
 
-  public Notification getOne(String actor, int articleId) {
-    EntityManager em = DBUtils.getEntityManager();
-    Notification noti = null;
-    try {
-      em.getTransaction().begin();
-      noti = (Notification) em.createNamedQuery("Notification.findOne")
-              .setParameter("actor", actor)
-              .setParameter("articleId", articleId)
-              .getSingleResult();
-      em.getTransaction().commit();
-    } catch (Exception e) {
-    } finally {
-      if (em != null) {
-        em.close();
-      }
+    public List<Notification> getListByNoitifier(String email) {
+        EntityManager em = DBUtils.getEntityManager();
+        List<Notification> listNoti = new ArrayList<>();
+        try {
+            em.getTransaction().begin();
+            listNoti = em.createNamedQuery("Notification.findByNotifirer")
+                    .setParameter("notifier", email)
+                    .getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return listNoti;
     }
-    return noti;
-  }
 
-  public Notification update(Notification noti) {
-    EntityManager em = DBUtils.getEntityManager();
-    try {
-      em.getTransaction().begin();
-      em.merge(noti);
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      Logger.getLogger(getClass().getName())
-              .log(Level.SEVERE, "exception caught", e);
-    } finally {
-      if (em != null) {
-        em.close();
-      }
+    public Notification getOneByNoitifierAndTime(String email, Date time) {
+        EntityManager em = DBUtils.getEntityManager();
+        Notification noti = null;
+        try {
+            em.getTransaction().begin();
+            List<Notification> listNoti = em.createNamedQuery("Notification.findByNotifierAndTime")
+                    .setParameter("email", email)
+                    .setParameter("time", time)
+                    .getResultList();
+            em.getTransaction().commit();
+            if (listNoti.size() > 0) {
+                noti = listNoti.get(0);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return noti;
     }
-    return noti;
-  }
+
+    public Notification getOne(String actorEmail, int articleId, int typeId) {
+        EntityManager em = DBUtils.getEntityManager();
+        Notification noti = null;
+        try {
+            em.getTransaction().begin();
+            List<Notification> list = em.createNamedQuery("Notification.findByArticleAndActor")
+                    .setParameter("actorEmail", actorEmail)
+                    .setParameter("articleId", articleId)
+                    .setParameter("typeId", typeId)
+                    .getResultList();
+            if (list.size() > 0) {
+                noti = list.get(0);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return noti;
+    }
+
+    public Notification update(Notification noti) {
+        EntityManager em = DBUtils.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(noti);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return noti;
+    }
+
+    public boolean delete(Notification noti) {
+        boolean isDeleted = false;
+        EntityManager em = DBUtils.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.remove(noti);
+            em.getTransaction().commit();
+            isDeleted = true;
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return isDeleted;
+    }
 }

@@ -77,8 +77,6 @@ public class ArticleService {
     return new ArticleDAO().getOne(id);
   }
 
-
-
   public List<ArticleComment> getListComment(int articleId) {
     ArticleCommentDAO dao = new ArticleCommentDAO();
     return dao.getList(articleId, Boolean.FALSE);
@@ -98,28 +96,5 @@ public class ArticleService {
     return commentDao.create(comment);
   }
 
-  public void notify(int articleId, int type, String actorEmail, String notifierEmail) {
-    NotificationDAO notiDao = new NotificationDAO();
-    Notification noti = notiDao.getOne(actorEmail, articleId);
-    if (noti != null) {
-      if (noti.getTypeId().getId() == 2 || noti.getTypeId().getId() == 3) {
-        noti.setTime(new Date());
-        noti.setTypeId(new NotificationTypeDAO().getOneById(type));
-        notiDao.update(noti);
-      }
-    } else {
-      newNoti(articleId, type, actorEmail, notifierEmail);
-    }
-  }
-
-  private Notification newNoti(int articleId, int type, String actorEmail, String notifierEmail) {
-    Notification noti = new Notification();
-    NotificationDAO notiDao = new NotificationDAO();
-    noti.setArticleId(new ArticleDAO().getOne(articleId));
-    noti.setActor(new AccountDAO().getByEmail(actorEmail));
-    noti.setNotifier(new AccountDAO().getByEmail(notifierEmail));
-    noti.setTime(new Date());
-    noti.setTypeId(new NotificationTypeDAO().getOneById(type));
-    return notiDao.create(noti);
-  }
+ 
 }
