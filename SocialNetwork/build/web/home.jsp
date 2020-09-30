@@ -67,40 +67,26 @@
                                         </div>
                                 </c:forEach>
                             </c:if>
+                            <c:if test="${empty listArticles}">
+                                <h3>No articles was found!</h3>
+                            </c:if>
                         </div>
                         <!-- Pagination -->
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination pagination-template d-flex justify-content-center">
-                                <c:set value="${requestScope.PAGE_NUMBER}" var="pageNummber" />
-                                <c:set value="${requestScope.NUMBER_OF_PAGES}" var="numberOfPages" />
-                                <!--For displaying Older link-->
-                                <c:choose>
-                                    <c:when test="${pageNummber gt 1}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="MainController?action=search&page=${pageNummber - 1}&cbxStatus=${param.cbxStatus}&role=member&txtSearchValue=${param.txtSearchValue}" tabindex="-1">&larr; Older</a>
+                        <c:if test="${not empty listArticles}">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-template d-flex justify-content-center">
+                                    <c:set value="${requestScope.PAGE_NUMBER}" var="pageNummber" />
+                                    <c:set value="${requestScope.NUMBER_OF_PAGES}" var="numOfPages" />
+                                    <c:set value="${requestScope.CURRENT_PAGE}" var="currentPage" />
+                                    <c:forEach begin="1" end="${numOfPages}" step="1" varStatus="theCount">
+                                        <li class="page-item <c:if test="${currentPage eq theCount.count}">active</c:if>">
+                                            <a class="page-link" href="MainController?keyword=${requestScope.LASTED_KEYWORD}&action=search&page=${theCount.count}">
+                                                ${theCount.count}</a>
                                         </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">&larr; Older</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                                <!--For displaying Newer link--> 
-                                <c:choose>
-                                    <c:when test="${pageNummber lt numberOfPages}">
-                                        <li class="page-item">
-                                            <a class="page-link" href="MainController?action=search&page=${pageNummber + 1}&cbxStatus=${param.cbxStatus}&role=member&txtSearchValue=${param.txtSearchValue}">Newer &rarr;</a>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#" tabindex="-1">Newer &rarr;</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </ul>
-                        </nav>
+                                    </c:forEach>
+                                </ul>
+                            </nav>
+                        </c:if>
                     </div>
                 </div>
                 <!-- /.Blog Entries Column -->
@@ -114,7 +100,8 @@
                         </header>
                         <form action="MainController" method="GET" class="search-form">
                             <div class="form-group">
-                                <input type="search" name="keyword" placeholder="What are you looking for?">
+                                <input type="search" name="keyword" placeholder="What are you looking for?" value="${requestScope.LASTED_KEYWORD}">
+                                <input type="hidden" name="page" value="1"/>
                                 <button type="submit" value="search" name="action" class="submit"><i class="icon-search"></i></button>
                             </div>
                         </form>

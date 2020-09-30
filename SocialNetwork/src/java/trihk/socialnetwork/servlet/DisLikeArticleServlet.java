@@ -6,7 +6,6 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +20,8 @@ import trihk.socialnetwork.service.NotificationService;
  *
  * @author TriHuynh
  */
-@WebServlet(name = "EmotionServlet", urlPatterns = {"/EmotionServlet"})
-public class EmotionServlet extends HttpServlet {
+@WebServlet(name = "DisLikeArticleServlet", urlPatterns = {"/DisLikeArticleServlet"})
+public class DisLikeArticleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,33 +35,16 @@ public class EmotionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String emotion = request.getParameter("emotion");
         int articleId = Integer.parseInt(request.getParameter("id"));
         HttpSession session = request.getSession();
         String notifierEmail = request.getParameter("notifierEmail");
         String email = ((Account) session.getAttribute("USER")).getEmail();
-        if (emotion != null) {
-            EmotionService service = new EmotionService();
-            NotificationService notiService = new NotificationService();
-            switch (emotion) {
-                case "like":
-                    service.like(articleId, email);
-                    if (!email.equals(notifierEmail)) {
-                        notiService.notify(articleId, 2, email, notifierEmail);
-                    }
-                    break;
-                case "dislike":
-                    service.dislike(articleId, email);
-                    if (!email.equals(notifierEmail)) {
-                        notiService.notify(articleId, 3, email, notifierEmail);
-                    }
-                    break;
-                default:
-                    break;
-            }
+        EmotionService service = new EmotionService();
+        NotificationService notiService = new NotificationService();
+        service.dislike(articleId, email);
+        if (!email.equals(notifierEmail)) {
+            notiService.notify(articleId, 3, email, notifierEmail);
         }
-        String urlRewrite = "MainController?action=view&id=" + String.valueOf(articleId);
-        response.sendRedirect(urlRewrite);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

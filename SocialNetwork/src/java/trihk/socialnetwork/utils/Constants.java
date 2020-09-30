@@ -11,7 +11,7 @@ package trihk.socialnetwork.utils;
  */
 public class Constants {
 
-  public static final int SIZE_OF_PAGE = 4;
+  public static final int SIZE_OF_PAGE = 3;
   public static final String EMPTY_STRING = "";
 
   public static final String USER_ROLE_ADMIN = "admin";

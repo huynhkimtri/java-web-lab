@@ -11,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import trihk.socialnetwork.entity.ArticleComment;
+import trihk.socialnetwork.service.CommentService;
+import trihk.socialnetwork.service.NotificationService;
 
 /**
  *
@@ -31,8 +34,20 @@ public class DeleteCommentServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("id");
-        System.out.println(id);
+        try {
+            String id = request.getParameter("id");
+            int cmtId = Integer.parseInt(id.trim());
+            CommentService commentService = new CommentService();
+            ArticleComment comment = commentService.getOne(cmtId);
+            if (comment != null) {
+                boolean isDeleted = commentService.delete(comment);
+                if (isDeleted) {
+                    NotificationService notiService = new NotificationService();
+                    notiService.deleteNotiByComment(comment);
+                }
+            }
+        } catch (NumberFormatException e) {
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

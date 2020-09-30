@@ -35,8 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Notification.findByArticleAndActor",
             query = "SELECT n FROM Notification n WHERE n.actor.email = :actorEmail AND n.articleId.id = :articleId AND n.typeId.id = :typeId"),
     @NamedQuery(name = "Notification.findByTime", query = "SELECT n FROM Notification n WHERE n.time = :time"),
-    @NamedQuery(name = "Notification.findByNotifierAndTime",
-            query = "SELECT n FROM Notification n WHERE n.notifier.email = :email AND n.time >= :time ODER BY n.time ASC")
+    @NamedQuery(name = "Notification.findByActorAndTime",
+            query = "SELECT n FROM Notification n WHERE n.actor.email = :email AND n.time >= :time"),
+    @NamedQuery(name = "Notification.findByNotifier",
+            query = "SELECT n FROM Notification n WHERE n.notifier.email = :email ORDER BY n.time DESC")
 })
 public class Notification implements Serializable {
 

@@ -6,8 +6,8 @@
 package trihk.socialnetwork.service;
 
 import java.util.Date;
+import java.util.List;
 import trihk.socialnetwork.dao.AccountDAO;
-import trihk.socialnetwork.dao.ArticleCommentDAO;
 import trihk.socialnetwork.dao.ArticleDAO;
 import trihk.socialnetwork.dao.NotificationDAO;
 import trihk.socialnetwork.dao.NotificationTypeDAO;
@@ -39,6 +39,8 @@ public class NotificationService {
                     } else {
                         this.newNoti(articleId, type, actorEmail, notifierEmail);
                     }
+                } else {
+                    this.remove(currentNoti);
                 }
                 break;
             case 3:
@@ -52,6 +54,8 @@ public class NotificationService {
                     } else {
                         this.newNoti(articleId, type, actorEmail, notifierEmail);
                     }
+                } else {
+                    this.remove(currentNoti);
                 }
                 break;
             default:
@@ -70,10 +74,26 @@ public class NotificationService {
         return notiDao.create(noti);
     }
 
-    public boolean deleteNotiByComment(int commentId) {
+    public boolean deleteNotiByComment(ArticleComment comment) {
         NotificationDAO dao = new NotificationDAO();
-        ArticleComment comment = new ArticleCommentDAO().getOne(commentId);
-        Notification noti = dao.getOneByNoitifierAndTime(comment.getOwnerEmail().getEmail(), comment.getTime());
-        return dao.delete(noti);
+        Notification noti = dao.getOneByNoitifierAndTime(
+                comment.getOwnerEmail().getEmail(),
+                comment.getTime()
+        );
+        if (noti != null) {
+            return dao.delete(noti);
+        }
+        return false;
+    }
+
+    public void remove(Notification noti) {
+        NotificationDAO dao = new NotificationDAO();
+        dao.delete(noti);
+    }
+
+    public List<Notification> getListByNotifier(String notifierEmail) {
+        NotificationDAO dao = new NotificationDAO();
+        List<Notification> listOfNoti = dao.getListByNoitifier(notifierEmail);
+        return listOfNoti;
     }
 }

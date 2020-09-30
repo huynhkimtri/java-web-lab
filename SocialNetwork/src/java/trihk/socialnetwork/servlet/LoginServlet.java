@@ -46,9 +46,14 @@ public class LoginServlet extends HttpServlet {
             AccountService service = new AccountService();
             Account account = service.login(email, password);
             if (account != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("USER", account);
-                path = homeServlet;
+                if (account.getIsActive() == true) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("USER", account);
+                    path = homeServlet;
+                } else {
+                    request.setAttribute("MSG_ERROR", Constants.MSG_INACTIVE);
+                    request.setAttribute("LASTED_EMAIL", email);
+                }
             } else {
                 request.setAttribute("MSG_ERROR", Constants.MSG_INCORRECT);
                 request.setAttribute("LASTED_EMAIL", email);

@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jdt.internal.compiler.impl.Constant;
 import trihk.socialnetwork.entity.Article;
 import trihk.socialnetwork.service.ArticleService;
 import trihk.socialnetwork.utils.Constants;
@@ -37,21 +36,29 @@ public class SearchArticleServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String path = "search.jsp";
-        String keyword = request.getParameter("keyword");
+        String path = "home.jsp";
+        String keyword = request.getParameter("keyword").trim();
         String page = request.getParameter("page");
         ArticleService service = new ArticleService();
-        List<Article> listOfArticles = service.getList(keyword);
-        int numOfPages = listOfArticles.size() / Constants.SIZE_OF_PAGE;
-        int pageIndex;
-        try {
-            pageIndex = Integer.parseInt(page);
-        } catch (NumberFormatException e) {
-            pageIndex = 1;
+        int size = service.count(keyword, 1);
+        int numOfPages = size / Constants.SIZE_OF_PAGE;
+        if (size % Constants.SIZE_OF_PAGE != 0) {
+            numOfPages = size / Constants.SIZE_OF_PAGE + 1;
         }
-        request.setAttribute("LIST_SEARCH_ARTICLES", listOfArticles);
+        int pageIndex = 0;
+        try {
+            if (page != null) {
+                pageIndex = Integer.parseInt(page.trim()) - 1;
+            }
+        } catch (NumberFormatException e) {
+            pageIndex = 0;
+        }
+        List<Article> listOfArticles = service.getListPagination(keyword, Constants.SIZE_OF_PAGE, pageIndex);
+        request.setAttribute("LIST_ARTILCES", listOfArticles);
         request.setAttribute("NUMBER_OF_PAGES", numOfPages);
         request.setAttribute("PAGE_INDEX", pageIndex);
+        request.setAttribute("CURRENT_PAGE", pageIndex + 1);
+        request.setAttribute("LASTED_KEYWORD", keyword);
         RequestDispatcher dispatcher = request.getRequestDispatcher(path);
         dispatcher.forward(request, response);
     }

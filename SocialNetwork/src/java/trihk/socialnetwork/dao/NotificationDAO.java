@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TemporalType;
 import trihk.socialnetwork.entity.Notification;
 import trihk.socialnetwork.utils.DBUtils;
 
@@ -47,8 +48,8 @@ public class NotificationDAO implements Serializable {
         List<Notification> listNoti = new ArrayList<>();
         try {
             em.getTransaction().begin();
-            listNoti = em.createNamedQuery("Notification.findByNotifirer")
-                    .setParameter("notifier", email)
+            listNoti = em.createNamedQuery("Notification.findByNotifier")
+                    .setParameter("email", email)
                     .getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -67,9 +68,9 @@ public class NotificationDAO implements Serializable {
         Notification noti = null;
         try {
             em.getTransaction().begin();
-            List<Notification> listNoti = em.createNamedQuery("Notification.findByNotifierAndTime")
+            List<Notification> listNoti = em.createNamedQuery("Notification.findByActorAndTime")
                     .setParameter("email", email)
-                    .setParameter("time", time)
+                    .setParameter("time", time, TemporalType.TIMESTAMP)
                     .getResultList();
             em.getTransaction().commit();
             if (listNoti.size() > 0) {
@@ -131,6 +132,9 @@ public class NotificationDAO implements Serializable {
         EntityManager em = DBUtils.getEntityManager();
         try {
             em.getTransaction().begin();
+            if (!em.contains(noti)) {
+                noti = em.merge(noti);
+            }
             em.remove(noti);
             em.getTransaction().commit();
             isDeleted = true;

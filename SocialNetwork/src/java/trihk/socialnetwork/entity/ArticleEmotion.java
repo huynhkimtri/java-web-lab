@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "ArticleEmotion.findById", query = "SELECT a FROM ArticleEmotion a WHERE a.id = :id"),
   @NamedQuery(name = "ArticleEmotion.findByAccountAndArticle",
           query = "SELECT a FROM ArticleEmotion a WHERE a.accountEmail.email = :email AND a.articleId.id =:id"),
+  @NamedQuery(name = "ArticleEmotion.findByAccountAndArticleAndLike",
+          query = "SELECT a FROM ArticleEmotion a WHERE a.accountEmail.email = :email AND a.articleId.id =:id AND a.isLike = True"),
+  @NamedQuery(name = "ArticleEmotion.findByAccountAndArticleAndDisLike",
+          query = "SELECT a FROM ArticleEmotion a WHERE a.accountEmail.email = :email AND a.articleId.id =:id AND a.isDislike = True"),
   @NamedQuery(name = "ArticleEmotion.findByIsLike", query = "SELECT a FROM ArticleEmotion a WHERE a.isLike = :isLike"),
   @NamedQuery(name = "ArticleEmotion.findByIsDislike", query = "SELECT a FROM ArticleEmotion a WHERE a.isDislike = :isDislike"),
   @NamedQuery(name = "ArticleEmotion.findByTime", query = "SELECT a FROM ArticleEmotion a WHERE a.time = :time")})

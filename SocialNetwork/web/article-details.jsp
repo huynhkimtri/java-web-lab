@@ -40,43 +40,58 @@
                 <div class="post blog-post col-lg-8">
                     <div class="container">
                         <div class="row">
-                            <div class="post">
-                                <div class="post-details">
-                                    <div class="post-meta d-flex justify-content-between">
-                                        <c:set var="article" value="${requestScope.ARTICLE}"/>
-                                        <div class="date meta-last">
-                                            <f:formatDate type="both" timeStyle="short" dateStyle="medium" 
-                                                          value="${article.createdDate}"/>
-                                            <a href="#" class="author d-flex align-items-center flex-wrap">
-                                                <div class="title"><span>${article.authorEmail.name}</span></div>
-                                            </a>
-                                        </div>
-                                    </div><a href="MainController?action=view&id=${article.id}">
-                                        <h3 class="h4">${article.title}</h3></a>
-                                    <p class="text-muted">${article.description}</p>
-                                    <p class="text-muted">${article.contents}</p>
-                                    <footer class="post-footer d-flex align-items-center">
-                                        <div class="comments meta-last mr-2">
-                                            <c:set value="${article.numOfLike}" var="like"/>
-                                            <button type="button" class="btn btn-outline-success btn-sm mr-1"
-                                                    onclick="like(${article.id}, '${article.authorEmail.email}')">
-                                                <c:if test="${like == 0}">Like</c:if>
-                                                <c:if test="${like > 0}">${like} Like</c:if>
-                                                </button>
-                                            <c:set value="${article.numOfDislike}" var="dislike"/>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm"
-                                                    onclick="dislike(${article.id}, '${article.authorEmail.email}')">
-                                                <c:if test="${dislike == 0}">Dislike</c:if>
-                                                <c:if test="${dislike > 0}">${dislike} Dislike</c:if>
-                                                </button>
+                            <c:set var="article" value="${requestScope.ARTICLE}"/>
+                            <c:if test="${not empty article}">
+                                <div class="post">
+                                    <div class="post-details">
+                                        <div class="post-meta d-flex justify-content-between">
+                                            <div class="date meta-last">
+                                                <f:formatDate type="both" timeStyle="short" dateStyle="medium" 
+                                                              value="${article.createdDate}"/>
+                                                <a href="#" class="author d-flex align-items-center flex-wrap">
+                                                    <div class="title"><span>${article.authorEmail.name}</span></div>
+                                                </a>
                                             </div>
 
+                                        </div>
+                                        <a href="MainController?action=view&id=${article.id}">
+                                            <h3 class="h4">${article.title}</h3></a>
+                                            <c:if test="${not empty article.imageUrl}">
+                                            <div>
+                                                <img src="${article.imageUrl}" width="100%"/>
+                                            </div>
+                                        </c:if>
+                                        <p class="text-muted">${article.description}</p>
+                                        <p class="text-muted">${article.contents}</p>
+                                        <footer class="post-footer d-flex align-items-center">
+                                            <div class="comments meta-last mr-2">
+                                                <c:set value="${article.numOfLike}" var="like"/>
+                                                <button type="button" class="btn btn-outline-success btn-sm mr-1"
+                                                        onclick="like(${article.id}, '${article.authorEmail.email}')">
+                                                    <c:if test="${like == 0}">Like</c:if>
+                                                    <c:if test="${like > 0}">${like} Like</c:if>
+                                                    </button>
+                                                <c:set value="${article.numOfDislike}" var="dislike"/>
+                                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                                        onclick="dislike(${article.id}, '${article.authorEmail.email}')">
+                                                    <c:if test="${dislike == 0}">Dislike</c:if>
+                                                    <c:if test="${dislike > 0}">${dislike} Dislike</c:if>
+                                                    </button>
+                                                <c:if test="${article.authorEmail.email eq user.email and user.roleId.id eq 2}">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                            onclick="deleteArticle(${article.id})">Delete</button>
+                                                </c:if>
+                                            </div>
                                         </footer>
                                     </div>
                                 </div>
-                            </div>
+                            </c:if>
+                            <c:if test="${empty article}">
+                                <h3>This article does not exist</h3>
+                            </c:if>
                         </div>
-                        <div class="post-comments">
+                    </div>
+                    <div class="post-comments">
                         <c:set var="listComments" value="${requestScope.COMMENTS}"/>
                         <c:if test="${not empty listComments}">
                             <header>
@@ -112,23 +127,25 @@
                             </header>
                         </c:if>
                     </div>
-                    <div class="add-comment">
-                        <header>
-                            <h3 class="h6">Leave a reply</h3>
-                        </header>
-                        <form action="MainController" method="POST" class="commenting-form">
-                            <div class="row">
-                                <div class="form-group col-md-12"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
-                                    <textarea name="comment" id="usercomment" required maxlength="500" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
-                                    <input type="hidden" name="articleId" value="${article.id}"/>
-                                    <input type="hidden" name="notifierEmail" value="${article.authorEmail.email}"/>
+                    <c:if test="${not empty user and user.roleId.id == 2 and not empty article}">
+                        <div class="add-comment">
+                            <header>
+                                <h3 class="h6">Leave a reply</h3>
+                            </header>
+                            <form action="MainController" method="POST" class="commenting-form">
+                                <div class="row">
+                                    <div class="form-group col-md-12"><grammarly-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="_1KJtL"></grammarly-extension>
+                                        <textarea name="comment" id="usercomment" required maxlength="500" placeholder="Type your comment" class="form-control" spellcheck="false"></textarea>
+                                        <input type="hidden" name="articleId" value="${article.id}"/>
+                                        <input type="hidden" name="notifierEmail" value="${article.authorEmail.email}"/>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <button type="submit" name="action" value="comment" class="btn btn-secondary">Submit Comment</button>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <button type="submit" name="action" value="comment" class="btn btn-secondary">Submit Comment</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+                    </c:if>
                 </div>
                 <!-- /.Blog Entries Column -->
 
@@ -139,10 +156,10 @@
                         <header>
                             <h3 class="h6">Search the Article</h3>
                         </header>
-                        <form action="#" class="search-form">
+                        <form action="MainController" method="GET" class="search-form">
                             <div class="form-group">
-                                <input type="search" placeholder="What are you looking for?">
-                                <button type="submit" class="submit"><i class="icon-search"></i></button>
+                                <input type="search" name="keyword" placeholder="What are you looking for?">
+                                <button type="submit" value="search" name="action" class="submit"><i class="icon-search"></i></button>
                             </div>
                         </form>
                     </div>
@@ -196,8 +213,7 @@
                     }
                 };
                 const uri = url.origin + url.pathname
-                        + "?action=emotion&id=" + id
-                        + "&emotion=like"
+                        + "?action=like&id=" + id
                         + "&notifierEmail=" + email;
                 xhttp.open("POST", uri, true);
                 xhttp.send();
@@ -213,8 +229,7 @@
                     }
                 };
                 const uri = url.origin + url.pathname
-                        + "?action=emotion&id=" + id
-                        + "&emotion=dislike"
+                        + "?action=dislike&id=" + id
                         + "&notifierEmail=" + email;
                 xhttp.open("POST", uri, true);
                 xhttp.send();
@@ -234,7 +249,23 @@
                     xhttp.open("POST", uri, true);
                     xhttp.send();
                 }
-            }
+            };
+            const deleteArticle = function (id) {
+                const url = new URL(this.document.URL);
+                const xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        document.location.href = 'http://localhost:8080/SocialNetwork/'
+                    }
+                };
+                const uri = url.origin + url.pathname
+                        + "?action=delArt&id=" + id;
+                const c = confirm("Are you sure to delete this article?");
+                if (c) {
+                    xhttp.open("POST", uri, true);
+                    xhttp.send();
+                }
+            };
         </script>
     </body>
 </html>

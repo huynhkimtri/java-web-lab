@@ -1,64 +1,70 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <div class="container">
-    <a class="navbar-brand h1" href="./">Mini Social Network</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="MainController?action=home">
-            <i class="fas fa-home"></i> Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="MainController?action=notifications">
-            <i class="fas fa-home"></i> Notifications
-          </a>
-        </li>
-        <c:if test="${user.roleId.id == 2}">
-          <li class="nav-item">
-            <a class="nav-link" href="create-article.jsp">
-              <i class="fas fa-edit"></i> Write
-            </a>
-          </li>
-        </c:if>
-        <c:if test="${user.roleId.id == 1}">
-          <li class="nav-item">
-            <a class="nav-link" href="MainController?action=admin">
-              <i class="fas fa-tasks"></i> Management
-            </a>
-          </li>
-        </c:if>
-        <c:choose>
-          <c:when test="${not empty fullName}">
-            <li class="nav-item">
-              <div class="dropdown">
-                <a class="nav-link dropdown-toggle" 
-                   href="#" role="button" id="dropdownMenuLink" 
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  ${fullName}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <c:set value="MainController?action=logout" var="url"/>
-                  <a class="dropdown-item" href="${url}" >Sign out</a>
-                </div>
-              </div> 
-            </li>
-          </c:when>
-          <c:otherwise>
-            <li class="nav-item">
-              <a class="nav-link" href="login.jsp">Sign in</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="register.jsp">Sign up</a>
-            </li>
-          </c:otherwise>
-        </c:choose>
-      </ul>
+    <div class="container">
+        <a class="navbar-brand h1" href="./">Mini Social Network</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="MainController?action=home">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <c:if test="${user.roleId.id == 2}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="MainController?action=notifications">
+                            <i class="fas fa-home"></i> Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-article.jsp">
+                            <i class="fas fa-edit"></i> Write
+                        </a>
+                    </li>
+                </c:if>
+                <c:if test="${user.roleId.id == 1}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="MainController?action=admin">
+                            <i class="fas fa-tasks"></i> Management
+                        </a>
+                    </li>
+                </c:if>
+                <c:choose>
+                    <c:when test="${not empty fullName}">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" 
+                                   href="#" role="button" id="dropdownMenuLink" 
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    ${fullName}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <c:set value="MainController?action=logout" var="url"/>
+                                    <a class="dropdown-item" href="${url}" >Sign out</a>
+                                </div>
+                            </div> 
+                        </li>
+                        <li class="nav-item">
+                        <c:set value="MainController?action=logout" var="url"/>
+                        <a class="nav-link" href="${url}">
+                            <i class="fas fa-home"></i> Sign out
+                        </a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.jsp">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register.jsp">Sign up</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>

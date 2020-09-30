@@ -51,12 +51,56 @@ public class ArticleEmotionDAO implements Serializable {
         return emotion;
     }
 
-    public ArticleEmotion getOne(String accountEmail, int articleId) {
+    public boolean remove(ArticleEmotion emotion) {
+        boolean isDeleted = false;
+        EntityManager em = DBUtils.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            if (!em.contains(emotion)) {
+                emotion = em.merge(emotion);
+            }
+            em.remove(emotion);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName())
+                    .log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return isDeleted;
+    }
+
+    public ArticleEmotion getOneLike(String accountEmail, int articleId) {
         EntityManager em = DBUtils.getEntityManager();
         ArticleEmotion emotion = null;
         try {
             em.getTransaction().begin();
-            List<ArticleEmotion> list = em.createNamedQuery("ArticleEmotion.findByAccountAndArticle")
+            List<ArticleEmotion> list = em.createNamedQuery("ArticleEmotion.findByAccountAndArticleAndLike")
+                    .setParameter("email", accountEmail)
+                    .setParameter("id", articleId)
+                    .getResultList();
+            if (list.size() > 0) {
+                emotion = list.get(0);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", e);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return emotion;
+    }
+
+    public ArticleEmotion getOneDisLike(String accountEmail, int articleId) {
+        EntityManager em = DBUtils.getEntityManager();
+        ArticleEmotion emotion = null;
+        try {
+            em.getTransaction().begin();
+            List<ArticleEmotion> list = em.createNamedQuery("ArticleEmotion.findByAccountAndArticleAndDisLike")
                     .setParameter("email", accountEmail)
                     .setParameter("id", articleId)
                     .getResultList();

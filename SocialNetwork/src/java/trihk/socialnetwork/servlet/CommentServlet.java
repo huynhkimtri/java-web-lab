@@ -41,13 +41,17 @@ public class CommentServlet extends HttpServlet {
             int articleId = Integer.parseInt(request.getParameter("articleId"));
             String notifierEmail = request.getParameter("notifierEmail");
             HttpSession session = request.getSession();
-            String email = ((Account) session.getAttribute("USER")).getEmail();
-            ArticleService service = new ArticleService();
-            NotificationService notiService = new NotificationService();
-            ArticleComment comment = service.comment(articleId, email, contents);
-            if (comment != null && !email.equals(notifierEmail)) {
-                int typeNoti = 1; // comment has type equals 1 in database;
-                notiService.notify(articleId, typeNoti, email, notifierEmail);
+            Account user = (Account) session.getAttribute("USER");
+            String email = user.getEmail();
+            int role = user.getRoleId().getId();
+            if (role == 2) {
+                ArticleService service = new ArticleService();
+                NotificationService notiService = new NotificationService();
+                ArticleComment comment = service.comment(articleId, email, contents);
+                if (comment != null && !email.equals(notifierEmail)) {
+                    int typeNoti = 1; // comment has type equals 1 in database;
+                    notiService.notify(articleId, typeNoti, email, notifierEmail);
+                }
             }
             String urlRewrite = "MainController?action=view&id=" + String.valueOf(articleId);
             response.sendRedirect(urlRewrite);

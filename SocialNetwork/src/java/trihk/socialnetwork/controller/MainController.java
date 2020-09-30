@@ -26,14 +26,15 @@ public class MainController extends HttpServlet {
     private final String ACTION_CREATE = "create-article";
     private final String ACTION_SEARCH = "search";
     private final String ACTION_DELETE_COMMENT = "delCmt";
+    private final String ACTION_DELETE_ARTICLE = "delArt";
     private final String ACTION_VIEW = "view";
     private final String ACTION_NOTIFICATIONS = "notifications";
-    private final String ACTION_EMOTION = "emotion";
+    private final String ACTION_LIKE = "like";
+    private final String ACTION_DISLIKE = "dislike";
     private final String ACTION_COMMENT = "comment";
     private final String ACTION_MY_ARTICLE = "myArticle";
 
     private final String homeServlet = "HomeServlet";
-    private final String homeAdminServlet = "HomeAdminServlet";
     private final String loginServlet = "LoginServlet";
     private final String registerServlet = "RegisterServlet";
     private final String logoutServlet = "LogoutServlet";
@@ -41,9 +42,12 @@ public class MainController extends HttpServlet {
     private final String searchArticleServlet = "SearchArticleServlet";
     private final String createArticleServlet = "CreateArticleServlet";
     private final String detailArticleServlet = "ViewArticleServlet";
-    private final String emotionArticleServlet = "EmotionServlet";
+    private final String myArticleServlet = "MyArticleServlet";
+    private final String likeArticleServlet = "LikeArticleServlet";
+    private final String disLikeArticleServlet = "DisLikeArticleServlet";
     private final String commentArticleServlet = "CommentServlet";
     private final String deleteCommentServlet = "DeleteCommentServlet";
+    private final String deleteArticleServlet = "DeleteArticleServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -81,8 +85,11 @@ public class MainController extends HttpServlet {
                     case ACTION_VIEW:
                         url = detailArticleServlet;
                         break;
-                    case ACTION_EMOTION:
-                        url = emotionArticleServlet;
+                    case ACTION_LIKE:
+                        url = likeArticleServlet;
+                        break;
+                    case ACTION_DISLIKE:
+                        url = disLikeArticleServlet;
                         break;
                     case ACTION_COMMENT:
                         url = commentArticleServlet;
@@ -95,6 +102,12 @@ public class MainController extends HttpServlet {
                         break;
                     case ACTION_DELETE_COMMENT:
                         url = deleteCommentServlet;
+                        break;
+                    case ACTION_DELETE_ARTICLE:
+                        url = deleteArticleServlet;
+                        break;
+                    case ACTION_MY_ARTICLE:
+                        url = myArticleServlet;
                         break;
                     default:
                         break;

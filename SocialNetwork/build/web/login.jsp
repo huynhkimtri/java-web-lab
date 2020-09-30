@@ -29,7 +29,7 @@
     <div class="signin-page">
       <div class="auth-form mt-4">
         <div class="auth-form-header">
-          <h1>Sign in to Simple Blog</h1>
+          <h1>Sign in to Social Network</h1>
         </div>
         <c:set value="${requestScope.MSG_ERROR}" var="msg"/>
         <c:set value="${requestScope.LASTED_EMAIL}" var="lastedEmail"/>

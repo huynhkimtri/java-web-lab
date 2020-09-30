@@ -18,12 +18,13 @@ public class SampleEditor {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    Date date = new Date();
-    System.out.println(date.getTime());
-    String patern = "EE dd MMM HH:mm";
-    SimpleDateFormat format = new SimpleDateFormat(patern);
-    String newDate = format.format(date.getTime());
-    System.out.println(newDate);
+//    Date date = new Date();
+//    System.out.println(date.getTime());
+//    String patern = "EE dd MMM HH:mm";
+//    SimpleDateFormat format = new SimpleDateFormat(patern);
+//    String newDate = format.format(date.getTime());
+//    System.out.println(newDate);
+      System.out.println(10/3);
   }
 
 }

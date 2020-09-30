@@ -6,25 +6,22 @@
 package trihk.socialnetwork.servlet;
 
 import java.io.IOException;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import trihk.socialnetwork.entity.Article;
-import trihk.socialnetwork.service.ArticleService;
-import trihk.socialnetwork.utils.Constants;
+import javax.servlet.http.HttpSession;
+import trihk.socialnetwork.entity.Account;
+import trihk.socialnetwork.service.EmotionService;
+import trihk.socialnetwork.service.NotificationService;
 
 /**
  *
  * @author TriHuynh
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/HomeServlet"})
-public class HomeServlet extends HttpServlet {
-
-    private final String homePage = "home.jsp";
+@WebServlet(name = "LikeArticleServlet", urlPatterns = {"/LikeArticleServlet"})
+public class LikeArticleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,21 +35,15 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            ArticleService service = new ArticleService();
-            List<Article> listOfArticles = service.getList(Constants.SIZE_OF_PAGE, 1);
-            int size = service.count("", 1);
-            int numOfPages = size / Constants.SIZE_OF_PAGE;
-            if (size % Constants.SIZE_OF_PAGE != 0) {
-                numOfPages = size / Constants.SIZE_OF_PAGE + 1;
-            }
-            request.setAttribute("LIST_ARTILCES", listOfArticles);
-            request.setAttribute("NUMBER_OF_PAGES", numOfPages);
-            request.setAttribute("CURRENT_PAGE", 1);
-        } catch (Exception e) {
-        } finally {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(homePage);
-            dispatcher.forward(request, response);
+        int articleId = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        String notifierEmail = request.getParameter("notifierEmail");
+        String email = ((Account) session.getAttribute("USER")).getEmail();
+        EmotionService service = new EmotionService();
+        NotificationService notiService = new NotificationService();
+        service.like(articleId, email);
+        if (!email.equals(notifierEmail)) {
+            notiService.notify(articleId, 2, email, notifierEmail);
         }
     }
 
